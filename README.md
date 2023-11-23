@@ -1,3 +1,13 @@
+# Pour build Raylib :
+- [] Installer CMake.
+- [] Faire un dossier *build* à la racine.
+- [] Se déplacer dedans.
+- [] cmake ..
+
+# Pour compiler :
+- cmake --build . --config Release
+- ./Release/my_raylib_game
+
 # Simple and portable CMake template for raylib
 
 This is a basic project template for raylib using CMake and has been tested with Visual Studio, Visual Studio Code and CLion.

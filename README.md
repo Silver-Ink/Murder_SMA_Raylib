@@ -1,8 +1,8 @@
 # Pour build Raylib :
-- [] Installer CMake.
-- [] Faire un dossier *build* à la racine.
-- [] Se déplacer dedans.
-- [] cmake ..
+- [x] Installer CMake.
+- [ ] Faire un dossier *build* à la racine.
+- [ ] Se déplacer dedans.
+- [ ] cmake ..
 
 # Pour compiler :
 - cmake --build . --config Release

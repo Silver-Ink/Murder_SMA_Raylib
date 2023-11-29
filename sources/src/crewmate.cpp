@@ -1,8 +1,8 @@
 #include "to_include.hpp"
 
-Crewmate::Crewmate():Crewmate(1, 1, 1, 0, Vector2{0.,0.} , 5, 1) {}
+Crewmate::Crewmate():Crewmate(1, 1, 1, 0, Vect {0.,0.}, 5, 1) {}
 
-Crewmate::Crewmate(double v, double i, double vit, bool w, Vector2 pos, int nt, bool life) : Amogus(v, i, vit, w, pos, life)
+Crewmate::Crewmate(double v, double i, double vit, bool w, Vect pos, int nt, bool life) : Amogus(v, i, vit, w, pos, life)
 {
     nb_task = nt;
 }

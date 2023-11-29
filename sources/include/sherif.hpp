@@ -1,7 +1,7 @@
 #ifndef DEF_SHERIF
 #define DEF_SHERIF
 
-#include "amogus.hpp"
+#include "to_include.hpp"
 
 class Sherif : public Amogus
 {
@@ -10,7 +10,7 @@ class Sherif : public Amogus
     public:
         /*constructeur*/
         Sherif();
-        Sherif(double v, double i , double vit, bool w , int c, Vector2 pos, bool life);
+        Sherif(double v, double i , double vit, bool w , int c, Vect pos, bool life);
         /*getter*/
         int get_cooldown();
         /*setter*/

@@ -1,8 +1,7 @@
 #ifndef DEF_CREWMATE
 #define DEF_CREWMATE
 
-#include "amogus.hpp"
-#include "task.hpp"
+#include "to_include.hpp"
 
 class Crewmate : public Amogus
 {
@@ -13,7 +12,7 @@ class Crewmate : public Amogus
     public:
         /*constructeur*/
         Crewmate();
-        Crewmate(double v, double i, double vit, bool w, Vector2 pos, int nt, bool life);
+        Crewmate(double v, double i, double vit, bool w, Vect pos, int nt, bool life);
         /*getter*/
         int get_nb_task();
         double get_proba();

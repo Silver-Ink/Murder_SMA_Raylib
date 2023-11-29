@@ -15,5 +15,6 @@ void Game::init_game(int nb_cm, int nb_impos, int nb_sherif, int nb_task)
     
     for (int i = 0; i < nb_task; i++)
     {
+        cout << lst_crewmate[i].get_position().get_x() << lst_crewmate->get_position().get_y() << endl;
     }
 }

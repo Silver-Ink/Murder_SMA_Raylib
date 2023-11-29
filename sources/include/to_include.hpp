@@ -7,15 +7,14 @@
 #include <cmath>
 using namespace std;
 
+#include "mt.hpp"
+#include "raylib.h"
+#include "vect.hpp"
+#include "task.hpp"
 #include "amogus.hpp"
 #include "crewmate.hpp"
 #include "impostor.hpp"
 #include "sherif.hpp"
 #include "game.hpp"
-#include "mt.hpp"
-
-#include "raylib.h"
-
-#define PI 3.1415927
 
 #endif

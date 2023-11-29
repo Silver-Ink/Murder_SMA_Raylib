@@ -6,17 +6,17 @@
 class Task
 {
     protected:
-        Vector2 position;
+        Vect position;
         int duree;
     public:
         /*constructeur*/
         Task();
-        Task(Vector2 position, int duree);
+        Task(Vect position, int duree);
         /*getter*/
-        Vector2 get_position();
+        Vect get_position();
         int get_duree();
         /*setter*/
-        void set_position(Vector2 pos);
+        void set_position(Vect pos);
         void set_duree(int duree);
         /*autre*/
         void move(); //à modifier en cas de présence d'arguments

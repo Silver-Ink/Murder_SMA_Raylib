@@ -1,11 +1,12 @@
 #ifndef DEF_AMONGUS
 #define DEF_AMONGUS
 
+#include "to_include.hpp"
 
 class Amogus
 {
     protected: 
-        Vector2 position;
+        Vect position;
         double vision;
         double interaction;
         double vitesse;
@@ -13,16 +14,17 @@ class Amogus
         bool alive;
     public:
         /*constructeur*/
-        Amogus(double v, double i, double vit, bool w, Vector2 pos, bool life);
+
+        Amogus(double v, double i, double vit, bool w, Vect pos, bool life);
         /*getter*/
-        Vector2 get_position();
+        Vect get_position();
         double get_vision();
         double get_interaction();
         double get_vitesse();
         bool isArmed();
         bool isAlive();
         /*setter*/
-        void set_position(Vector2 pos);
+        void set_position(Vect pos);
         void set_vision(double v);
         void set_interaction(double interaction);
         void set_vitesse(double v);

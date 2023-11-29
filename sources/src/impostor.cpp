@@ -1,6 +1,8 @@
 #include "to_include.hpp"
 
-Impostor::Impostor(double v, double i, double vit, bool w, int c, bool k, Vect pos) : Amogus(v, i, vit, w, pos){
+Impostor::Impostor():Impostor(1, 1, 1, 1, 15, 0, Vector2{0., 0.}, 1) {}
+
+Impostor::Impostor(double v, double i, double vit, bool w, int c, bool k, Vector2 pos, bool life) : Amogus(v, i, vit, w, pos, life){
     cooldown = c;
     knowledge = k;
 }

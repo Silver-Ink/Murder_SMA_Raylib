@@ -12,7 +12,8 @@ class Crewmate : public Amogus
         double proba;
     public:
         /*constructeur*/
-        Crewmate(double v, double i, double vit, bool w, Vect pos, int nt);
+        Crewmate();
+        Crewmate(double v, double i, double vit, bool w, Vector2 pos, int nt, bool life);
         /*getter*/
         int get_nb_task();
         double get_proba();

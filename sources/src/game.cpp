@@ -9,13 +9,11 @@ void Game::init_game(int nb_cm, int nb_impos, int nb_sherif, int nb_task)
 {
     int maxIter;
     nb_crewmate = nb_cm;
-    lst_crewmate = (Crewmate*) malloc(sizeof(Crewmate)*nb_cm);
-    lst_impostor = (Impostor*) malloc(sizeof(Impostor)*nb_impos);
-    lst_task = (Task*) malloc(sizeof(Task)*nb_task);
+    lst_crewmate =  new Crewmate[nb_cm];
+    lst_impostor = new Impostor[nb_impos];
+    lst_task = new Task[nb_task];
     
     for (int i = 0; i < nb_task; i++)
     {
-        Task * task = new Task();
-        Vect * pos = new Vect();
     }
 }

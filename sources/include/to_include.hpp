@@ -7,7 +7,6 @@
 #include <cmath>
 using namespace std;
 
-#include "vect.hpp"
 #include "amogus.hpp"
 #include "crewmate.hpp"
 #include "impostor.hpp"

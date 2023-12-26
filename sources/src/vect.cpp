@@ -42,13 +42,13 @@ float Vect::dist(Vect v)
     return sqrt(dist_sq(v));
 }
 
-float Vect::norm_sq(Vect v)
+float Vect::norm_sq()
 {
-    return v.x_*v.x_ + v.y_* v.y_;
+    return x_*x_ + y_* y_;
 }
-float Vect::norm(Vect v)
+float Vect::norm()
 {
-    return sqrt(norm_sq(v));
+    return sqrt(norm_sq());
 }
 
 /// @brief Calcule l'angle du vecteur 

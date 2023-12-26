@@ -9,16 +9,16 @@ class Task
         Vect position;
         int duree;
     public:
-        /*constructeur*/
+        //constructeur
         Task();
         Task(Vect position, int duree);
-        /*getter*/
+        //getter
         Vect get_position();
         int get_duree();
-        /*setter*/
+        //setter
         void set_position(Vect pos);
         void set_duree(int duree);
-        /*autre*/
+        //autre
         void move(); //à modifier en cas de présence d'arguments
 };
 

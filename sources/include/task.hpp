@@ -8,6 +8,7 @@ class Task
     protected:
         Vect position;
         int duree;
+        // -> rajouter un id comme pour amogus
     public:
         //constructeur
         Task();

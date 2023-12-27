@@ -7,16 +7,18 @@ float const Amogus::DEFAULT_vitesse = 2.;
 float const Amogus::DRAW_RADIUS = 25;
 float const Amogus::DRAW_OUTLINE_RADIUS = 6;
 
+int Amogus::nextFreeID = 0;
 
-Amogus::Amogus(float x, float y, bool weapon) : 
+
+Amogus::Amogus(float x, float y) : 
     position(x, y),
     destination(nullptr),
     distVision(DEFAULT_distVision),
     distInterract(DEFAULT_distInterract),
     vitesse(DEFAULT_vitesse),
-    weapon(weapon),
     alive(true),
-    highlightColor()
+    highlightColor(),
+    id(nextFreeID++)
 {
     highlightColor.r = Game::rand_int1(50, 225);
     highlightColor.g = Game::rand_int1(50, 225);
@@ -33,15 +35,14 @@ Vect Amogus::get_position() {return position;}
 float Amogus::get_vision(){return distVision;}
 float Amogus::get_interaction(){return distInterract;}
 float Amogus::get_vitesse(){return vitesse;}
-bool Amogus::isArmed(){return weapon;}
 bool Amogus::isAlive(){return alive;}
+int Amogus::getNextFreeId(){return nextFreeID;}
 
 //setter
 void Amogus::set_position(Vect pos) {position = pos;}
 void Amogus::set_interaction(float i){distInterract = i;}
 void Amogus::set_vision(float v){distVision = v;}
 void Amogus::set_vitesse(float v){vitesse = v;}
-void Amogus::setArmed(bool w){weapon = w;}
 void Amogus::setAlive(bool life) {alive = life;}
 
 void Amogus::move(Vect* destination)
@@ -60,7 +61,7 @@ void Amogus::draw()
 
     DrawCircle(x, y, DRAW_OUTLINE_RADIUS + DRAW_RADIUS, highlightColor);
 
-    DrawCircle(x, y , DRAW_RADIUS, RED);
+    DrawCircle(x, y , DRAW_RADIUS, BLUE);
     // DrawPixel(p.x, p.y, BLACK);
     // DrawRectangle(p.x - AMOGUS_WIDTH /2, p.y - AMOGUS_WIDTH / 2, AMOGUS_WIDTH, AMOGUS_WIDTH, RED);
 

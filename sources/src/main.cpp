@@ -5,15 +5,12 @@
 
 #define WINDOW_TITLE "AMOGUS"
 
-int main(void)
-{   
-
+void test_window()
+{
     InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, WINDOW_TITLE);
     // SetWindowState(FLAG_FULLSCREEN_MODE);
     SetTargetFPS(60);
-
-
-    Amogus test;
+    Crewmate test;
     
     
     Vector2 pos_start = {200, 200};
@@ -65,8 +62,13 @@ int main(void)
     }
 
     CloseWindow();
-    Game *game = new Game();
-    game->init_game(10, 10, 10, 10);
+}
+
+int main(void)
+{   
+    test_window();
+    
+    Game::init_game(10, 10, 10, 10);
 
     return 0;
 }

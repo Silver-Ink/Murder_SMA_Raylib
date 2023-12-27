@@ -1,5 +1,5 @@
-#ifndef VECT
-#define VECT
+#ifndef DEF_VECT
+#define DEF_VECT
 
 #include "to_include.hpp"
 

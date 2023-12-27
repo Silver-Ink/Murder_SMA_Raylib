@@ -25,11 +25,12 @@ class Amogus
         float distVision;
         float distInterract;
         float vitesse;
-        bool weapon;
         bool alive;
 
         Color highlightColor;
+        int id;
 
+        static int nextFreeID;
         // NE PAS ENLEVER
         // // UP        0
         // // RIGHT     1
@@ -43,27 +44,27 @@ class Amogus
         // static Anim lstAnimBody[4];
         // constructeur
         Amogus();
-        Amogus(float x, float y, bool weapon=false);
+        Amogus(float x, float y);
 
         // getter
         Vect get_position();
         float get_vision();
         float get_interaction();
         float get_vitesse();
-        bool isArmed();
         bool isAlive();
+        static int getNextFreeId();
         // setter
         void set_position(Vect pos);
         void set_vision(float v);
         void set_interaction(float dist_interract);
         void set_vitesse(float v);
-        void setArmed(bool w);
         void setAlive(bool life);
         // autre
         void move(Vect* destination); //à modifier en cas de présence d'arguments
         virtual void update();
         virtual void draw();
-        // virtual void findNextDest() = 0;
+        // Méthode abstraite qui determine la prochaine destination a suivre
+        virtual void findNextDest() = 0;
         void drawDest();
 
 

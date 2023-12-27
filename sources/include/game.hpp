@@ -2,17 +2,43 @@
 #define GAME
 
 #include "to_include.hpp"
+#include "../include/amogus.hpp"
+#include "../include/task.hpp"
 
 class Game{
+public:
+    //const
+    /// @brief pourcentage de tache sur le nombre total de taches
+    /// présentes qu'un crewmate se voit attribué
+    const static float RATIO_TASK_PER_CREWMATE;
 private:
-    // Crewmate* lst_crewmate;
-    // Impostor* lst_impostor;
-    // Sherif* lst_Sheriff;
-    Task * lst_task;
-    int nb_crewmate;
-    int nb_sherif;
-    int nb_imposter;
-    int nb_task;
+    // ===== AMOGUS =====
+    /// @brief contients tous les amogus (crewmates, imposteurs)
+    /// leur indice dans le vector correspond a leur id.
+    static vector<Amogus *> lstAmogus;
+
+    /// @brief nb de crewmates vivants
+    static int nb_crewmate;
+
+    /// @brief nb d'imposteurs vivants
+    static int nb_impostor;
+
+    // /// @brief nb de crewmate armés vivants
+    // int nb_sherif;
+
+
+    /// ===== TACHES =====
+    /// @brief liste des taches présentes sur la map,
+    /// une tache peut être assignée a plusieurs crewmate et doit 
+    /// donc etre réalisée plusieurs fois.
+    static vector<Task *> lstTask;
+
+    /// @brief nombre total de tache pour tous les crewmates
+    static int nb_distributed_tasks;
+
+    /// @brief nombre total de taches effectuées
+    static int nb_completed_tasks;
+
 
 public:
 
@@ -26,7 +52,19 @@ public:
     static float rand_real2(float min, float max);
 
 
-    void init_game(int nb_cm, int nb_impos, int nb_sherif, int nb_task);
+    static void init_game(int nb_cm, int nb_impos, int nb_sherif, int nb_task);
+
+    static int get_nbAmogus();
+    static int get_nbAmogusAlive();
+    static int get_nbCrewmateAlive();
+    static int get_nbImpostorAlive();
+
+    static Amogus* get_AmogusById(int id);
+
+    static int get_nbPhysicalTask();
+    static int get_nbTaskPerCrewmate();
+
+    static Task* get_TaskById(int id);
 };
 
 #endif

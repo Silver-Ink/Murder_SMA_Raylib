@@ -1,5 +1,91 @@
 #include "to_include.hpp"
 
+
+const float Game::RATIO_TASK_PER_CREWMATE = .7;
+
+
+/// @brief Génère de nouveaux amogus pour une nouvelle partie
+/// @param nb_cm nombre de crewmate (comprends le nb de shérifs)
+/// @param nb_impos nombre d'imosteurs
+/// @param nb_sherif nombre de crewmates armés dès le départ et sans tasks (inclus dans nb_cm)
+/// @param nb_task nombre de taches sur la map
+void Game::init_game(int nb_cm, int nb_impos, int nb_sherif, int nb_task)
+{
+    // int maxIter;
+    nb_crewmate = nb_cm;
+    nb_impostor = nb_impos;
+
+    lstTask.reserve(nb_task);
+    lstAmogus.reserve(nb_cm + nb_impos);
+
+    for (int i = 0; i < nb_task; i++)
+    {
+        lstTask.push_back(new Task{});
+    }
+    
+
+    for (int i = 0; i < nb_impos; i++)
+    {
+        lstAmogus.push_back(new Imposteur{});
+    }
+    for (int i = 0; i < nb_cm; i++)
+    {
+        lstAmogus.push_back(new Crewmate(0, 0, nb_sherif-- > 0));
+    }
+
+}
+
+int Game::get_nbAmogus()
+{
+	return lstAmogus.capacity();
+}
+
+int Game::get_nbAmogusAlive()
+{
+	return nb_crewmate + nb_impostor;
+}
+
+int Game::get_nbCrewmateAlive()
+{
+	return nb_crewmate;
+}
+
+int Game::get_nbImpostorAlive()
+{
+	return nb_impostor;
+}
+
+Amogus* Game::get_AmogusById(int id)
+{
+	return lstAmogus[id];
+}
+
+Task* Game::get_TaskById(int id)
+{
+	return lstTask[id];
+}
+
+int Game::get_nbPhysicalTask()
+{
+    return lstTask.capacity();
+}
+
+int Game::get_nbTaskPerCrewmate()
+{
+    return (int)(RATIO_TASK_PER_CREWMATE * (float)get_nbPhysicalTask());
+}
+
+vector<Amogus *> Game::lstAmogus = vector<Amogus *>{};
+int Game::nb_crewmate = 0;
+int Game::nb_impostor = 0;
+
+vector<Task *> Game::lstTask = vector<Task *>{};
+int Game::nb_distributed_tasks = 0;
+int Game::nb_completed_tasks = 0;
+
+
+// =============== RANDOM ====================
+
 /// @brief entier aléatoire dans [min, max]
 int Game::rand_int1(int min, int max)
 {
@@ -21,18 +107,4 @@ float Game::rand_real1(float min, float max)
 float Game::rand_real2(float min, float max)
 {
     return genrand_real2() * (max - min) + min;
-}
-
-void Game::init_game(int nb_cm, int nb_impos, int nb_sherif, int nb_task)
-{
-    int maxIter;
-    nb_crewmate = nb_cm;
-    // lst_crewmate =  new Crewmate[nb_cm];
-    // lst_impostor = new Impostor[nb_impos];
-    lst_task = new Task[nb_task];
-    
-    // for (int i = 0; i < nb_task; i++)
-    // {
-    //     cout << lst_crewmate[i].get_position().get_x() << lst_crewmate->get_position().get_y() << endl;
-    // }
 }

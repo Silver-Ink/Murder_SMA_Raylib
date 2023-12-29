@@ -75,6 +75,27 @@ int Game::get_nbTaskPerCrewmate()
     return (int)(RATIO_TASK_PER_CREWMATE * (float)get_nbPhysicalTask());
 }
 
+
+int Game::debug_txt_size = 30;
+Vect Game::debug_txt_pos_def = Vect(10, 10);
+Vect Game::debug_txt_pos = Vect(10, 10);
+bool Game::show_debug_txt = true;
+void Game::drawDebugText(string txt)
+{
+    if (show_debug_txt)
+    {
+        DrawText(txt.c_str(), debug_txt_pos.get_x(), debug_txt_pos.get_y(), debug_txt_size, GRAY);
+        const Vector2 text_size = MeasureTextEx(GetFontDefault(), txt.c_str(), debug_txt_size, 1);
+        debug_txt_pos += Vect(0, text_size.y);
+    }
+}
+
+void Game::clearScreen()
+{
+    ClearBackground(RAYWHITE);
+    debug_txt_pos = debug_txt_pos_def;
+}
+
 vector<Amogus *> Game::lstAmogus = vector<Amogus *>{};
 int Game::nb_crewmate = 0;
 int Game::nb_impostor = 0;
@@ -82,7 +103,6 @@ int Game::nb_impostor = 0;
 vector<Task *> Game::lstTask = vector<Task *>{};
 int Game::nb_distributed_tasks = 0;
 int Game::nb_completed_tasks = 0;
-
 
 // =============== RANDOM ====================
 

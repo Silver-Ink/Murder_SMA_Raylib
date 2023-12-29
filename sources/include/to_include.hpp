@@ -2,6 +2,7 @@
 #define INCLUDE
 
 #include <iostream>
+#include <sstream>
 #include <fstream>
 #include <string>
 #include <cmath>

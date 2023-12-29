@@ -33,8 +33,6 @@ public:
     float angle();
     float angle(Vect v);
 
-    Vector2 toVect2();
-
     void normalise();
     void set_norm(float n);
     //cast
@@ -44,6 +42,9 @@ public:
         v.y = y_;
         return v;
     }
+
+    static Vect fromVector2(Vector2& v); 
+    static Vect fromVector2(const Vector2& v); 
 
     static float toDeg(float angleRad);
     static float toRad(float angleDeg);

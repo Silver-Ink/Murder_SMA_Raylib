@@ -68,12 +68,15 @@ float Vect::angle(Vect v)
     return angle;
 }
 
-Vector2 Vect::toVect2()
+Vect Vect::fromVector2(Vector2& v)
 {
-    Vector2 v;
-    v.x = x_;
-    v.y = y_;
-    return v;
+    Vect v2{v.x, v.y};
+    return v2;
+}
+Vect Vect::fromVector2(const Vector2& v)
+{
+    Vect v2{v.x, v.y};
+    return v2;
 }
 
 Vect operator+(const Vect& v, const Vect& w)

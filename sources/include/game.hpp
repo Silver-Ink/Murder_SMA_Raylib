@@ -65,6 +65,14 @@ public:
     static int get_nbTaskPerCrewmate();
 
     static Task* get_TaskById(int id);
+
+    static Vect debug_txt_pos;
+    static Vect debug_txt_pos_def;
+    static int debug_txt_size;
+    static bool show_debug_txt;
+    static void drawDebugText(string txt);
+
+    static void clearScreen();
 };
 
 #endif

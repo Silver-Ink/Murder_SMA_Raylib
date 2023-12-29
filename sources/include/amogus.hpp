@@ -60,12 +60,14 @@ class Amogus
         void set_vitesse(float v);
         void setAlive(bool life);
         // autre
-        void move(Vect* destination); //à modifier en cas de présence d'arguments
-        virtual void update();
-        virtual void draw();
+        void move(Vect* dest); //à modifier en cas de présence d'arguments
         // Méthode abstraite qui determine la prochaine destination a suivre
         virtual void findNextDest() = 0;
+        virtual void update();
+
+        virtual void draw();
         void drawDest();
+        void drawRange();
 
 
 

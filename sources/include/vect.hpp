@@ -44,7 +44,19 @@ public:
         v.y = y_;
         return v;
     }
+
+    static float toDeg(float angleRad);
+    static float toRad(float angleDeg);
     
+    //operators
+    Vect& operator+=(const Vect& v);
+    Vect& operator-=(const Vect& v);
+    Vect& operator*=(const float s);
+    Vect& operator/=(const float s);
+
+    //friend operators
+    friend Vect operator+(const Vect& v, const Vect& w);
+    friend Vect operator-(const Vect& v, const Vect& w);
 
 };
 

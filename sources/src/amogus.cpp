@@ -1,11 +1,11 @@
 #include "to_include.hpp"
 
-float const Amogus::DEFAULT_distVision = 100.;
-float const Amogus::DEFAULT_distInterract = 10.;
+float const Amogus::DEFAULT_distVision = 600.;
+float const Amogus::DEFAULT_distInterract = 20.;
 float const Amogus::DEFAULT_vitesse = 2.;
 
-float const Amogus::DRAW_RADIUS = 25;
-float const Amogus::DRAW_OUTLINE_RADIUS = 6;
+float const Amogus::DRAW_RADIUS = 10;
+float const Amogus::DRAW_OUTLINE_RADIUS = 4;
 
 int Amogus::nextFreeID = 0;
 
@@ -45,8 +45,9 @@ void Amogus::set_vision(float v){distVision = v;}
 void Amogus::set_vitesse(float v){vitesse = v;}
 void Amogus::setAlive(bool life) {alive = life;}
 
-void Amogus::move(Vect* destination)
+void Amogus::move(Vect* dest)
 {
+    destination = dest;
 }
 
 void Amogus::update()
@@ -69,8 +70,41 @@ void Amogus::draw()
 
 void Amogus::drawDest()
 {
+    if (destination != nullptr)
+    {
+        DrawLineEx((Vector2)position,
+                   (Vector2)(*destination),
+                   3.,
+                   highlightColor);
+        // DrawLineBezier((Vector2)position, (Vector2)(*destination), 4., highlightColor);
+        
+
+        float edge = 10;
+        float angle = (*destination - position).angle();
+        Vector2 v1{};
+        float angleOffSet = Vect::toRad(30);
+        v1.x = destination->get_x() - cos(angle - angleOffSet) * edge;
+        v1.y = destination->get_y() - sin(angle - angleOffSet) * edge;
+        Vector2 v2{};
+        v2.x = destination->get_x() - cos(angle + angleOffSet) * edge;
+        v2.y = destination->get_y() - sin(angle + angleOffSet) * edge;
+        DrawTriangle((Vector2)(*destination), v2, v1, highlightColor);
+    }
+    else
+    {
+        float x = position.get_x();
+        float y = position.get_y();
+        float os = DRAW_RADIUS * .5;
+        DrawLine(x + os, y + os, x - os, y - os, BLACK);
+        DrawLine(x - os, y + os, x + os, y - os, BLACK);
+    }
 }
 
+void Amogus::drawRange()
+{
+    DrawCircleLinesV((Vector2)position, distVision, GRAY);
+    DrawCircleLinesV((Vector2)position, distInterract, LIME);
+}
 // void Amogus::initAnim()
 // {
 //     Spritesheet* s_bg =   new Spritesheet(ASSETS_PATH "BIGamogus_bg.png"   , 32*3);

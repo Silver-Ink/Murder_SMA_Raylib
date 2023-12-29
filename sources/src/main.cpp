@@ -13,7 +13,7 @@ void test_window()
     Crewmate test;
     
     
-    Vector2 pos_start = {200, 200};
+    Vector2 pos_start = {100, 200};
     Vector2 pos = pos_start;
     double speed = 3.;
     int t = 0;
@@ -25,8 +25,10 @@ void test_window()
 
         ClearBackground(RAYWHITE);
 
+
+        test.drawDest();
         test.draw();
-        
+        test.drawRange();
 
         // const char* text = "It Works !";
         // const Vector2 text_size = MeasureTextEx(GetFontDefault(), text, 20, 1);
@@ -58,7 +60,7 @@ void test_window()
         t++;
         Vect p{pos.x, pos.y};
 
-        test.set_position(p);
+        test.move(&p);
     }
 
     CloseWindow();

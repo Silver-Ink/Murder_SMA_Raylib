@@ -75,3 +75,42 @@ Vector2 Vect::toVect2()
     v.y = y_;
     return v;
 }
+
+Vect operator+(const Vect& v, const Vect& w)
+{
+    Vect r(v.x_ + w.x_, v.y_ + w.y_);
+    return r;
+}
+Vect operator-(const Vect& v, const Vect& w)
+{
+    Vect r(v.x_ - w.x_, v.y_ - w.y_);
+    return r;
+}
+
+#define PI_SUR_180 3.1415926 / 180.
+float Vect::toDeg(float angleRad){return angleRad / PI_SUR_180;}
+float Vect::toRad(float angleDeg){return angleDeg * PI_SUR_180;}
+
+Vect &Vect::operator+=(const Vect &v)
+{
+    x_ += v.x_; y_ += v.y_;
+    return *this;
+}
+
+Vect &Vect::operator-=(const Vect &v)
+{
+    x_ -= v.x_; y_ -= v.y_;
+    return *this;
+}
+
+Vect &Vect::operator*=(const float s)
+{
+    x_ *= s; y_ *= s;
+    return *this;
+}
+
+Vect &Vect::operator/=(const float s)
+{
+    x_ /= s; y_ /= s;
+    return *this;
+}

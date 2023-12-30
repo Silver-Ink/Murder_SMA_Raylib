@@ -4,12 +4,14 @@
 const float Game::RATIO_TASK_PER_CREWMATE = .7;
 
 
+float Game::dt = 0;
+
 /// @brief Génère de nouveaux amogus pour une nouvelle partie
 /// @param nb_cm nombre de crewmate (comprends le nb de shérifs)
 /// @param nb_impos nombre d'imosteurs
 /// @param nb_sherif nombre de crewmates armés dès le départ et sans tasks (inclus dans nb_cm)
 /// @param nb_task nombre de taches sur la map
-void Game::init_game(int nb_cm, int nb_impos, int nb_sherif, int nb_task)
+void Game::generate_entities(int nb_cm, int nb_impos, int nb_sherif, int nb_task)
 {
     // int maxIter;
     nb_crewmate = nb_cm;
@@ -107,10 +109,14 @@ int Game::get_nbTaskPerCrewmate()
 
 
 
-void Game::clearScreen()
+void Game::initScreen()
 {
+    dt = GetFrameTime();
+    BeginDrawing();
+
     ClearBackground(RAYWHITE);
     debug_txt_pos = debug_txt_pos_def;
+    drawDebugText("FPS : " + std::to_string(GetFPS()));
 }
 
 vector<Amogus *> Game::lstAmogus = vector<Amogus *>{};
@@ -122,6 +128,54 @@ int Game::nb_distributed_tasks = 0;
 int Game::nb_completed_tasks = 0;
 
 // =============== DEBUG ====================
+
+void Game::debug_update()
+{
+    if (IsKeyPressedRepeat(KEY_EQUAL) || IsKeyPressedRepeat(KEY_KP_ADD) ||
+        IsKeyPressed(KEY_EQUAL) || IsKeyPressed(KEY_KP_ADD))
+    {
+        Game::debug_txt_size ++;
+    }
+    if ((IsKeyPressedRepeat(KEY_SIX) || IsKeyPressedRepeat(KEY_KP_SUBTRACT) ||
+        IsKeyPressed(KEY_SIX) || IsKeyPressed(KEY_KP_SUBTRACT)
+        ) && 
+        Game::debug_txt_size > 0)
+    {
+        Game::debug_txt_size --;
+    }
+    if (IsKeyPressed(KEY_DOWN) || IsKeyPressedRepeat(KEY_DOWN))
+    {
+        Game::debug_txt_pos_def += Vect{0, 10};
+    }
+    if (IsKeyPressed(KEY_UP) || IsKeyPressedRepeat(KEY_UP))
+    {
+        Game::debug_txt_pos_def -= Vect{0, 10};
+    }
+    if (IsKeyPressed(KEY_LEFT) || IsKeyPressedRepeat(KEY_LEFT))
+    {
+        Game::debug_txt_pos_def -= Vect{10, 0};
+    }
+    if (IsKeyPressed(KEY_RIGHT) || IsKeyPressedRepeat(KEY_RIGHT))
+    {
+        Game::debug_txt_pos_def += Vect{10, 0};
+    }
+    if (IsKeyPressed(KEY_SPACE))
+    {
+        Game::show_debug_txt ^= 1; 
+    }
+    if (IsKeyPressed(KEY_D))
+    {
+        Game::show_all_dest ^= 1; 
+    }
+    if (IsKeyPressed(KEY_V))
+    {
+        Game::show_all_vision_range ^= 1; 
+    }
+    if (IsKeyPressed(KEY_I))
+    {
+        Game::show_all_interaction_range ^= 1; 
+    }
+}
 
 int Game::debug_txt_size = 30;
 Vect Game::debug_txt_pos_def = Vect(10, 10);

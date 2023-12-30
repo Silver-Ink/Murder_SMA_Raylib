@@ -7,7 +7,7 @@
 
 class Game{
 public:
-    //const
+    // ===== CONST ======
     /// @brief pourcentage de tache sur le nombre total de taches
     /// présentes qu'un crewmate se voit attribué
     const static float RATIO_TASK_PER_CREWMATE;
@@ -52,7 +52,8 @@ public:
     static float rand_real2(float min, float max);
 
     //game logic
-    static void init_game(int nb_cm, int nb_impos, int nb_sherif, int nb_task);
+    static float dt;
+    static void generate_entities(int nb_cm, int nb_impos, int nb_sherif, int nb_task);
     static void update(float dt);
     static void draw();
 
@@ -73,6 +74,7 @@ public:
 
 
     //debug
+    static void debug_update();
     static Vect debug_txt_pos;
     static Vect debug_txt_pos_def;
     static int debug_txt_size;
@@ -84,7 +86,7 @@ public:
         static bool show_all_vision_range;
         static bool show_all_interaction_range;
 
-    static void clearScreen();
+    static void initScreen();
 };
 
 #endif

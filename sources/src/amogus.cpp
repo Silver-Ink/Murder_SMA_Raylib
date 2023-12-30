@@ -2,7 +2,7 @@
 
 float const Amogus::DEFAULT_distVision = 600.;
 float const Amogus::DEFAULT_distInterract = 20.;
-float const Amogus::DEFAULT_vitesse = 100.;
+float const Amogus::DEFAULT_vitesse = 65.;
 
 float const Amogus::DRAW_RADIUS = 10;
 float const Amogus::DRAW_OUTLINE_RADIUS = 4;

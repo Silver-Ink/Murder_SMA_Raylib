@@ -42,9 +42,10 @@ void startGameLoop()
 int main(void)
 {   
 
-    init_amogus_dance();
+    init_amogus_dance(25);
 
     InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, WINDOW_TITLE);
+    SetTargetFPS(200);
     startGameLoop();
     CloseWindow();    
 

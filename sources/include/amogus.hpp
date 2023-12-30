@@ -24,7 +24,7 @@ class Amogus
 
         float distVision;
         float distInterract;
-        float vitesse;
+        float speed;
         bool alive;
 
         Color highlightColor;
@@ -47,27 +47,29 @@ class Amogus
         Amogus(float x, float y);
 
         // getter
-        Vect get_position();
+        Vect& get_position();
         float get_vision();
         float get_interaction();
-        float get_vitesse();
+        float get_speed();
         bool isAlive();
         static int getNextFreeId();
         // setter
         void set_position(Vect pos);
         void set_vision(float v);
         void set_interaction(float dist_interract);
-        void set_vitesse(float v);
+        void set_speed(float v);
         void setAlive(bool life);
         // autre
-        void move(Vect* dest); //à modifier en cas de présence d'arguments
+        void moveToward(Vect* dest); //à modifier en cas de présence d'arguments
         // Méthode abstraite qui determine la prochaine destination a suivre
         virtual void findNextDest() = 0;
-        virtual void update();
+        virtual void update(float dt);
 
         virtual void draw();
         void drawDest();
-        void drawRange();
+        void drawVisionRange();
+        void drawInteractRange();
+
 
 
 

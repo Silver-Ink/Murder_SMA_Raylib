@@ -42,13 +42,13 @@ float Vect::dist(Vect v)
     return sqrt(dist_sq(v));
 }
 
-float Vect::norm_sq()
+float Vect::length_sq()
 {
     return x_*x_ + y_* y_;
 }
-float Vect::norm()
+float Vect::length()
 {
-    return sqrt(norm_sq());
+    return sqrt(length_sq());
 }
 
 /// @brief Calcule l'angle du vecteur 
@@ -66,6 +66,18 @@ float Vect::angle(Vect v)
     if (angle > PI)        { angle -= 2 * PI; }
     else if (angle <= -PI) { angle += 2 * PI; }
     return angle;
+}
+
+void Vect::normalize()
+{
+    set_length(1.);
+}
+
+void Vect::set_length(float l)
+{
+    float new_length = l/length();
+    x_ *= new_length;
+    y_ *= new_length;
 }
 
 Vect Vect::fromVector2(Vector2& v)

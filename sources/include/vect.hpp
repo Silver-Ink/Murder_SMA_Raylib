@@ -27,14 +27,14 @@ public:
     float dist_sq(Vect v);
     float dist(Vect v);
 
-    float norm_sq();
-    float norm();
+    float length_sq();
+    float length();
 
     float angle();
     float angle(Vect v);
 
-    void normalise();
-    void set_norm(float n);
+    void normalize();
+    void set_length(float l);
     //cast
     operator Vector2() const{
         Vector2 v;

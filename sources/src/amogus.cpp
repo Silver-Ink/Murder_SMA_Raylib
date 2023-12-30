@@ -2,7 +2,7 @@
 
 float const Amogus::DEFAULT_distVision = 600.;
 float const Amogus::DEFAULT_distInterract = 20.;
-float const Amogus::DEFAULT_vitesse = 2.;
+float const Amogus::DEFAULT_vitesse = 100.;
 
 float const Amogus::DRAW_RADIUS = 10;
 float const Amogus::DRAW_OUTLINE_RADIUS = 4;
@@ -15,7 +15,7 @@ Amogus::Amogus(float x, float y) :
     destination(nullptr),
     distVision(DEFAULT_distVision),
     distInterract(DEFAULT_distInterract),
-    vitesse(DEFAULT_vitesse),
+    speed(DEFAULT_vitesse),
     alive(true),
     highlightColor(),
     id(nextFreeID++)
@@ -31,10 +31,10 @@ Amogus::Amogus() : Amogus(Game::rand_int1(0, 500), Game::rand_int1(0, 500))
 
 
 //getter
-Vect Amogus::get_position() {return position;}
+Vect& Amogus::get_position() {return position;}
 float Amogus::get_vision(){return distVision;}
 float Amogus::get_interaction(){return distInterract;}
-float Amogus::get_vitesse(){return vitesse;}
+float Amogus::get_speed(){return speed;}
 bool Amogus::isAlive(){return alive;}
 int Amogus::getNextFreeId(){return nextFreeID;}
 
@@ -42,16 +42,19 @@ int Amogus::getNextFreeId(){return nextFreeID;}
 void Amogus::set_position(Vect pos) {position = pos;}
 void Amogus::set_interaction(float i){distInterract = i;}
 void Amogus::set_vision(float v){distVision = v;}
-void Amogus::set_vitesse(float v){vitesse = v;}
+void Amogus::set_speed(float v){speed = v;}
 void Amogus::setAlive(bool life) {alive = life;}
 
-void Amogus::move(Vect* dest)
+void Amogus::moveToward(Vect* dest)
 {
     destination = dest;
 }
 
-void Amogus::update()
+void Amogus::update(float dt)
 {
+    Vect dir = *destination - position;
+    dir.set_length(dt * speed);
+    position += dir;
 }
 
 void Amogus::draw()
@@ -100,11 +103,15 @@ void Amogus::drawDest()
     }
 }
 
-void Amogus::drawRange()
+void Amogus::drawVisionRange()
 {
     DrawCircleLinesV((Vector2)position, distVision, GRAY);
+}
+void Amogus::drawInteractRange()
+{
     DrawCircleLinesV((Vector2)position, distInterract, LIME);
 }
+
 // void Amogus::initAnim()
 // {
 //     Spritesheet* s_bg =   new Spritesheet(ASSETS_PATH "BIGamogus_bg.png"   , 32*3);

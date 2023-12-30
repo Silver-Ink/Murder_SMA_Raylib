@@ -32,6 +32,36 @@ void Game::init_game(int nb_cm, int nb_impos, int nb_sherif, int nb_task)
     {
         lstAmogus.push_back(new Crewmate(0, 0, nb_sherif-- > 0));
     }
+}
+
+void Game::update(float dt)
+{
+    vector<Amogus*>::iterator amgs;
+    for (amgs = lstAmogus.begin(); amgs != lstAmogus.end(); amgs++)
+    {
+        (*amgs)->update(dt);
+    }
+}
+
+void Game::draw()
+{
+    vector<Amogus*>::iterator amgs;
+    for (amgs = lstAmogus.begin(); amgs != lstAmogus.end(); amgs++)
+    {
+        if (Game::show_all_interaction_range)
+        {
+            (*amgs)->drawInteractRange();
+        }
+        if (Game::show_all_vision_range)
+        {
+            (*amgs)->drawVisionRange();
+        }
+        (*amgs)->draw();
+        if (Game::show_all_dest)
+        {
+            (*amgs)->drawDest();
+        }
+    }
 
 }
 
@@ -76,19 +106,6 @@ int Game::get_nbTaskPerCrewmate()
 }
 
 
-int Game::debug_txt_size = 30;
-Vect Game::debug_txt_pos_def = Vect(10, 10);
-Vect Game::debug_txt_pos = Vect(10, 10);
-bool Game::show_debug_txt = true;
-void Game::drawDebugText(string txt)
-{
-    if (show_debug_txt)
-    {
-        DrawText(txt.c_str(), debug_txt_pos.get_x(), debug_txt_pos.get_y(), debug_txt_size, GRAY);
-        const Vector2 text_size = MeasureTextEx(GetFontDefault(), txt.c_str(), debug_txt_size, 1);
-        debug_txt_pos += Vect(0, text_size.y);
-    }
-}
 
 void Game::clearScreen()
 {
@@ -103,6 +120,25 @@ int Game::nb_impostor = 0;
 vector<Task *> Game::lstTask = vector<Task *>{};
 int Game::nb_distributed_tasks = 0;
 int Game::nb_completed_tasks = 0;
+
+// =============== DEBUG ====================
+
+int Game::debug_txt_size = 30;
+Vect Game::debug_txt_pos_def = Vect(10, 10);
+Vect Game::debug_txt_pos = Vect(10, 10);
+void Game::drawDebugText(string txt)
+{
+    if (show_debug_txt)
+    {
+        DrawText(txt.c_str(), debug_txt_pos.get_x(), debug_txt_pos.get_y(), debug_txt_size, GRAY);
+        const Vector2 text_size = MeasureTextEx(GetFontDefault(), txt.c_str(), debug_txt_size, 1);
+        debug_txt_pos += Vect(0, text_size.y);
+    }
+}
+bool Game::show_debug_txt = true;
+bool Game::show_all_dest = false;
+bool Game::show_all_interaction_range = false;
+bool Game::show_all_vision_range = false;
 
 // =============== RANDOM ====================
 

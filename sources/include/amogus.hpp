@@ -32,16 +32,16 @@ class Amogus
 
         static int nextFreeID;
         // NE PAS ENLEVER
-        // // UP        0
+        // // DOWN      0
         // // RIGHT     1
-        // // DOWN      2
+        // // UP        2
         // // LEFT      3
-        // int dir;
+        int dir;
     public:
-        // static Spritesheet* s_bg  ;
-        // static Spritesheet* s_body;
-        // static Anim lstAnimBG[4];
-        // static Anim lstAnimBody[4];
+        static Spritesheet* s_bg  ;
+        static Spritesheet* s_body;
+        static Anim* lstAnimBG;
+        static Anim* lstAnimBody;
         // constructeur
         Amogus();
         Amogus(float x, float y);
@@ -78,7 +78,7 @@ class Amogus
         // void draw(int t);
 
         // static
-        // static void initAnim();
+        static void initAnim();
 };
 
 #endif

@@ -46,6 +46,7 @@ int main(void)
 
     InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, WINDOW_TITLE);
     SetTargetFPS(200);
+    Amogus::initAnim();
     startGameLoop();
     CloseWindow();    
 

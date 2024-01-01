@@ -4,7 +4,7 @@ float const Amogus::DEFAULT_distVision = 600.;
 float const Amogus::DEFAULT_distInterract = 20.;
 float const Amogus::DEFAULT_vitesse = 20.;
 
-float const Amogus::DRAW_RADIUS = 10;
+float const Amogus::DRAW_RADIUS = 52;
 float const Amogus::DRAW_OUTLINE_RADIUS = 4;
 
 int Amogus::nextFreeID = 0;
@@ -142,6 +142,7 @@ void Amogus::draw()
 {
     int t = GetTime() * 30;
     Vector2 p;
+    DrawCircle(position.get_x(), position.get_y(), DRAW_OUTLINE_RADIUS + DRAW_RADIUS, highlightColor);
     p.x = position.get_x() - 48;
     p.y = position.get_y() - 48;
     Amogus::lstAnimBG[dir].drawFrame(p, t, WHITE);

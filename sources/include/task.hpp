@@ -8,17 +8,23 @@ class Task
     protected:
         Vect position;
         int duree;
+        static Texture2D sprite;
         // -> rajouter un id comme pour amogus
     public:
         //constructeur
         Task();
         Task(Vect position, int duree);
+
         //getter
         Vect get_position();
         int get_duree();
         //setter
         void set_position(Vect pos);
         void set_duree(int duree);
+
+        //autre
+        void draw();
+        static void initAnim();
 };
 
 

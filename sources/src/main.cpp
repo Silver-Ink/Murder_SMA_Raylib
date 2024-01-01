@@ -9,7 +9,7 @@ void init_amogus_dance(int n = 10)
 {
     Game::generate_entities(n, 0, 0, 0);
     Vect screenCenter{SCREEN_WIDTH / 2., SCREEN_HEIGHT / 2.};
-    float rad = n * 10;
+    float rad = 300;
 
     for (int i = 0; i < n; i++)
     {
@@ -42,11 +42,12 @@ void startGameLoop()
 int main(void)
 {   
 
-    init_amogus_dance(25);
+    init_amogus_dance(10);
 
     InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, WINDOW_TITLE);
     SetTargetFPS(200);
     Amogus::initAnim();
+    Task::initAnim();
     startGameLoop();
     CloseWindow();    
 

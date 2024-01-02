@@ -2,6 +2,8 @@
 
 
 const float Game::RATIO_TASK_PER_CREWMATE = .7;
+const float Game::SCREEN_HEIGHT = 1080.;
+const float Game::SCREEN_WIDTH = 1920.;
 
 
 float Game::dt = 0;
@@ -14,26 +16,48 @@ float Game::dt = 0;
 void Game::generate_entities(int nb_cm, int nb_impos, int nb_sherif, int nb_task)
 {
     // int maxIter;
+    vector<Task*> listetask;
     nb_crewmate = nb_cm;
     nb_impostor = nb_impos;
 
     lstTask.reserve(nb_task);
     lstAmogus.reserve(nb_cm + nb_impos);
 
+    float rand1, rand2;
+    int rand3; //temps necessaire pour faire la tâche
+
     for (int i = 0; i < nb_task; i++)
     {
-        lstTask.push_back(new Task{});
+        rand1 = rand_real2(0.0, SCREEN_WIDTH);
+        rand2 = rand_real2(0.0, SCREEN_HEIGHT);
+        printf("%lf && %lf\n", rand1, rand2);
+        rand3 = rand_int2(0, 10);
+        lstTask.push_back(new Task(rand1, rand2, rand3));
     }
-    
+
+    listetask.assign(lstTask.begin(), lstTask.end());
 
     for (int i = 0; i < nb_impos; i++)
     {
         lstAmogus.push_back(new Imposteur{});
     }
+
     for (int i = 0; i < nb_cm; i++)
     {
-        lstAmogus.push_back(new Crewmate(0, 0, nb_sherif-- > 0));
+        rand1 = rand_real2(0.0, SCREEN_WIDTH);
+        rand2 = rand_real2(0.0, SCREEN_HEIGHT);
+        printf("%lf && %lf et %d\n", rand1, rand2, i);
+        Crewmate* newCrewmate = new Crewmate(rand1, rand2, nb_sherif-- > 0);
+        if (nb_sherif < 1)
+        {
+            melange_task(listetask);
+            newCrewmate->setTask(listetask);
+
+        }
+        lstAmogus.push_back(newCrewmate);
+        
     }
+    printf("FIN\n");
 }
 
 void Game::update(float dt)
@@ -65,6 +89,17 @@ void Game::draw()
         }
     }
 
+}
+
+void Game::melange_task(vector<Task*>& listeTask)
+{
+    int rand1, rand2;
+    for (int i = 0; i < listeTask.size(); i++)
+    {
+        rand1 = rand_int2(0, ((int) (RATIO_TASK_PER_CREWMATE * listeTask.size())));
+        rand2 = rand_int2(0, ((int) (RATIO_TASK_PER_CREWMATE * listeTask.size())));
+        std::swap(listeTask[rand1], listeTask[rand2]);
+    }
 }
 
 int Game::get_nbAmogus()
@@ -107,7 +142,10 @@ int Game::get_nbTaskPerCrewmate()
     return (int)(RATIO_TASK_PER_CREWMATE * (float)get_nbPhysicalTask());
 }
 
-
+vector<Amogus *> Game::get_lstAmogus()
+{
+    return lstAmogus;
+}
 
 void Game::initScreen()
 {

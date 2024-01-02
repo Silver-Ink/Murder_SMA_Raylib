@@ -20,6 +20,8 @@ public:
 
 	~Crewmate();
 
+	vector<Task*> getTask();
+ 	void setTask(const vector<Task*> & listeTask);
 	virtual void findNextDest() override;
 
 };

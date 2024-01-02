@@ -1,4 +1,5 @@
 #include "to_include.hpp"
+#include <typeinfo>
 
 #define SCREEN_WIDTH (1920)
 #define SCREEN_HEIGHT (1080)
@@ -24,6 +25,25 @@ void init_amogus_dance(int n = 10)
     Game::get_AmogusById(n-1)->moveToward(&(Game::get_AmogusById(0)->get_position()));
 }
 
+void init_muder_game(int nbrCrewmate, int nbrImpostor, int nbrSherif, int nbrTask)
+{
+    Game::generate_entities(nbrCrewmate, nbrImpostor, nbrSherif, nbrTask);
+    printf("Début?\n");
+    vector<Amogus*>::iterator amgs;
+    printf("oui?\n");
+    for (amgs = Game::get_lstAmogus().begin(); amgs != Game::get_lstAmogus().end(); amgs++)
+    {
+        if ((*amgs)->get_type() == 0)
+        {
+            printf("CrewMate détecté\n");
+        }
+        else
+        {
+            printf("Impostor détecté\n");
+        }
+    }
+}
+
 void startGameLoop()
 {
     while (!WindowShouldClose())
@@ -42,8 +62,7 @@ void startGameLoop()
 int main(void)
 {   
 
-    init_amogus_dance(25);
-
+    init_muder_game(9, 1, 1, 10);
     InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, WINDOW_TITLE);
     SetTargetFPS(200);
     startGameLoop();

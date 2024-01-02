@@ -26,6 +26,7 @@ class Amogus
         float distInterract;
         float speed;
         bool alive;
+        int type;
 
         Color highlightColor;
         int id;
@@ -44,13 +45,14 @@ class Amogus
         // static Anim lstAnimBody[4];
         // constructeur
         Amogus();
-        Amogus(float x, float y);
+        Amogus(float x, float y, int type);
 
         // getter
         Vect& get_position();
         float get_vision();
         float get_interaction();
         float get_speed();
+        int get_type();
         bool isAlive();
         static int getNextFreeId();
         // setter

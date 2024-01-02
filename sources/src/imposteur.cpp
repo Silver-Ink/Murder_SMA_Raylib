@@ -5,3 +5,4 @@ void Imposteur::findNextDest()
 {
 	// a redéfinir
 }
+

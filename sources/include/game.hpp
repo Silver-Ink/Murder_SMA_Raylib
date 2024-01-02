@@ -11,6 +11,8 @@ public:
     /// @brief pourcentage de tache sur le nombre total de taches
     /// présentes qu'un crewmate se voit attribué
     const static float RATIO_TASK_PER_CREWMATE;
+    const static float SCREEN_HEIGHT;
+    const static float SCREEN_WIDTH ;
 private:
     // ===== AMOGUS =====
     /// @brief contients tous les amogus (crewmates, imposteurs)
@@ -54,6 +56,7 @@ public:
     //game logic
     static float dt;
     static void generate_entities(int nb_cm, int nb_impos, int nb_sherif, int nb_task);
+    static void melange_task(vector<Task*>& listeTask);
     static void update(float dt);
     static void draw();
 
@@ -62,6 +65,7 @@ public:
     static int get_nbAmogusAlive();
     static int get_nbCrewmateAlive();
     static int get_nbImpostorAlive();
+    static vector<Amogus *> get_lstAmogus();
 
     static Amogus* get_AmogusById(int id);
 

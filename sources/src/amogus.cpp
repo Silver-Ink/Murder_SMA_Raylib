@@ -10,7 +10,7 @@ float const Amogus::DRAW_OUTLINE_RADIUS = 4;
 int Amogus::nextFreeID = 0;
 
 
-Amogus::Amogus(float x, float y) : 
+Amogus::Amogus(float x, float y, int types) : 
     position(x, y),
     destination(nullptr),
     distVision(DEFAULT_distVision),
@@ -18,7 +18,8 @@ Amogus::Amogus(float x, float y) :
     speed(DEFAULT_vitesse),
     alive(true),
     highlightColor(),
-    id(nextFreeID++)
+    id(nextFreeID++),
+    type(types)
 {
     highlightColor.r = Game::rand_int1(50, 225);
     highlightColor.g = Game::rand_int1(50, 225);
@@ -26,7 +27,7 @@ Amogus::Amogus(float x, float y) :
     highlightColor.a = 255;
 }
 
-Amogus::Amogus() : Amogus(Game::rand_int1(0, 500), Game::rand_int1(0, 500))
+Amogus::Amogus() : Amogus(Game::rand_int1(0, 500), Game::rand_int1(0, 500), 0)
 {}
 
 
@@ -51,7 +52,10 @@ void Amogus::moveToward(Vect* dest)
 }
 
 void Amogus::update(float dt)
-{
+{   
+    if (destination == nullptr)
+        return;
+
     Vect dir = *destination - position;
     dir.set_length(dt * speed);
     position += dir;

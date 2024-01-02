@@ -1,12 +1,17 @@
 #include "to_include.hpp"
 
-Task::Task():Task(Vect{0.,0.}, 3) {}
+int Task::nextFreeID = 0;
 
-Task::Task(Vect pos, int duree)
+Task::Task():Task(0., 0., 3) {}
+
+Task::Task(float x, float y, int durees) :
+position(x, y),
+duree(durees),
+id(nextFreeID++)
 {
-    position = pos;
-    duree = duree;
+
 }
 
 int Task::get_duree() {return duree;}
 Vect Task::get_position() {return position;}
+int Task::getNextFreeId(){return nextFreeID;}

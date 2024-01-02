@@ -35,6 +35,8 @@ public:
 
     void normalize();
     void set_length(float l);
+
+    bool in(Vect v, float range); //Applique l'operation mathematique d'un cercle et regarde l'appartenance de v
     //cast
     operator Vector2() const{
         Vector2 v;

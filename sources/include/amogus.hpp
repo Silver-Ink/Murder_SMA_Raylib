@@ -4,6 +4,9 @@
 #include "to_include.hpp"
 
 #define AMOGUS_WIDTH 50
+//Pour gérer les effets de bord lors d'un mouvement
+#define SCREEN_WIDTH (1920)
+#define SCREEN_HEIGHT (1080)
 
 class Amogus
 {
@@ -62,7 +65,7 @@ class Amogus
         // autre
         void moveToward(Vect* dest); //à modifier en cas de présence d'arguments
         // Méthode abstraite qui determine la prochaine destination a suivre
-        virtual void findNextDest() = 0;
+        virtual void findNextDest(float offset) = 0;
         virtual void update(float dt);
 
         virtual void draw();

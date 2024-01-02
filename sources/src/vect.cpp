@@ -80,6 +80,12 @@ void Vect::set_length(float l)
     y_ *= new_length;
 }
 
+bool Vect::in(Vect v, float range)
+{
+    float coord = (v.get_x() - x_) * (v.get_x() - x_) + (v.get_y() - y_) * (v.get_y() - y_);
+    return (coord <= range * range);
+}
+
 Vect Vect::fromVector2(Vector2& v)
 {
     Vect v2{v.x, v.y};

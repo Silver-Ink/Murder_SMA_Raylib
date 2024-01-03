@@ -16,7 +16,7 @@ using namespace std;
 
 #include "mt.hpp"
 #include "raylib.h"
-// #include "anim.hpp"
+#include "anim.hpp"
 
 #include "vect.hpp"
 

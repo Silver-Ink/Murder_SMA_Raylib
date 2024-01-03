@@ -4,6 +4,8 @@
 #include "to_include.hpp"
 
 #define AMOGUS_WIDTH 50
+//Pour gérer les effets de bord lors d'un mouvement
+
 
 class Amogus
 {
@@ -33,16 +35,16 @@ class Amogus
 
         static int nextFreeID;
         // NE PAS ENLEVER
-        // // UP        0
+        // // DOWN      0
         // // RIGHT     1
-        // // DOWN      2
+        // // UP        2
         // // LEFT      3
-        // int dir;
+        int dir;
     public:
-        // static Spritesheet* s_bg  ;
-        // static Spritesheet* s_body;
-        // static Anim lstAnimBG[4];
-        // static Anim lstAnimBody[4];
+        static Spritesheet* s_bg  ;
+        static Spritesheet* s_body;
+        static Anim* lstAnimBG;
+        static Anim* lstAnimBody;
         // constructeur
         Amogus();
         Amogus(float x, float y, int type);
@@ -64,7 +66,7 @@ class Amogus
         // autre
         void moveToward(Vect* dest); //à modifier en cas de présence d'arguments
         // Méthode abstraite qui determine la prochaine destination a suivre
-        virtual void findNextDest() = 0;
+        virtual void findNextDest(float offset) = 0;
         virtual void update(float dt);
 
         virtual void draw();
@@ -80,7 +82,7 @@ class Amogus
         // void draw(int t);
 
         // static
-        // static void initAnim();
+        static void initAnim();
 };
 
 #endif

@@ -3,10 +3,18 @@
 
 #include "to_include.hpp"
 
-class Crewmate : public Amogus{
-
+class Crewmate : public Amogus
+{
+	static float const DEFAULT_avoid; //définit le seuil de suspicion auquel on doit fuir l'Amogus concerné
+	bool occupe;
+	int action;
+	int cooldown_pasBouger;
 	int nbTaskCleared;
 	bool armed;
+	Vect futur_pos;
+	int ind_next_task; /*Indice de la tâche que compte réaliser le crewmate 
+						-> évite d'avoir à parcourir l'ens des tâches à chaque itération du jeu 
+						tant que le crewmate voit toujours son objectif*/
 
 	vector<Task*> lstTasks;
 	vector<Information> lstInfo;
@@ -21,9 +29,10 @@ public:
 	~Crewmate();
 
 	vector<Task*> getTask();
+	void deplacer(float offset, Vect pos_task);
+	void fuir();
  	void setTask(const vector<Task*> & listeTask);
-	virtual void findNextDest() override;
-
+	virtual void findNextDest(float offset) override;
 };
 
 #endif

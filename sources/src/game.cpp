@@ -74,6 +74,7 @@ void Game::draw()
     vector<Amogus*>::iterator amgs;
     for (amgs = lstAmogus.begin(); amgs != lstAmogus.end(); amgs++)
     {
+        (*amgs)->draw();
         if (Game::show_all_interaction_range)
         {
             (*amgs)->drawInteractRange();
@@ -82,12 +83,18 @@ void Game::draw()
         {
             (*amgs)->drawVisionRange();
         }
-        (*amgs)->draw();
         if (Game::show_all_dest)
         {
             (*amgs)->drawDest();
         }
     }
+
+    vector<Task*>::iterator task;
+    for (task = lstTask.begin(); task != lstTask.end(); task++)
+    {
+        (*task)->draw();
+    }
+    
 
 }
 

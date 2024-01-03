@@ -2,12 +2,17 @@
 
 float const Amogus::DEFAULT_distVision = 600.;
 float const Amogus::DEFAULT_distInterract = 20.;
-float const Amogus::DEFAULT_vitesse = 65.;
+float const Amogus::DEFAULT_vitesse = 20.;
 
-float const Amogus::DRAW_RADIUS = 10;
+float const Amogus::DRAW_RADIUS = 52;
 float const Amogus::DRAW_OUTLINE_RADIUS = 4;
 
 int Amogus::nextFreeID = 0;
+
+Spritesheet* Amogus::s_bg = nullptr ;
+Spritesheet* Amogus::s_body = nullptr;
+Anim* Amogus::lstAnimBG = nullptr;
+Anim* Amogus::lstAnimBody = nullptr;
 
 
 Amogus::Amogus(float x, float y, int types) : 
@@ -19,7 +24,8 @@ Amogus::Amogus(float x, float y, int types) :
     alive(true),
     highlightColor(),
     id(nextFreeID++),
-    type(types)
+    type(types),
+    dir(0)
 {
     highlightColor.r = Game::rand_int1(50, 225);
     highlightColor.g = Game::rand_int1(50, 225);
@@ -61,19 +67,24 @@ void Amogus::update(float dt)
     position += dir;
 }
 
-void Amogus::draw()
+int Amogus::get_type()
 {
-    float x = position.get_x();
-    float y = position.get_y();
-
-
-    DrawCircle(x, y, DRAW_OUTLINE_RADIUS + DRAW_RADIUS, highlightColor);
-
-    DrawCircle(x, y , DRAW_RADIUS, BLUE);
-    // DrawPixel(p.x, p.y, BLACK);
-    // DrawRectangle(p.x - AMOGUS_WIDTH /2, p.y - AMOGUS_WIDTH / 2, AMOGUS_WIDTH, AMOGUS_WIDTH, RED);
-
+    return type;
 }
+
+// void Amogus::draw()
+// {
+//     float x = position.get_x();
+//     float y = position.get_y();
+
+
+//     DrawCircle(x, y, DRAW_OUTLINE_RADIUS + DRAW_RADIUS, highlightColor);
+
+//     DrawCircle(x, y , DRAW_RADIUS, BLUE);
+//     // DrawPixel(p.x, p.y, BLACK);
+//     // DrawRectangle(p.x - AMOGUS_WIDTH /2, p.y - AMOGUS_WIDTH / 2, AMOGUS_WIDTH, AMOGUS_WIDTH, RED);
+
+// }
 
 void Amogus::drawDest()
 {
@@ -116,23 +127,28 @@ void Amogus::drawInteractRange()
     DrawCircleLinesV((Vector2)position, distInterract, LIME);
 }
 
-// void Amogus::initAnim()
-// {
-//     Spritesheet* s_bg =   new Spritesheet(ASSETS_PATH "BIGamogus_bg.png"   , 32*3);
-//     Spritesheet* s_body = new Spritesheet(ASSETS_PATH "BIGamogus_blank.png", 32*3);
+void Amogus::initAnim()
+{
+    Spritesheet* s_bg =   new Spritesheet(ASSETS_PATH "BIGamogus_bg.png"   , 32*3);
+    Spritesheet* s_body = new Spritesheet(ASSETS_PATH "BIGamogus_blank.png", 32*3);
 
-//     for (int i = 0; i < 4; i++)
-//     {
-//         lstAnimBG[i]   = Anim{s_bg  , 6*i, 5 + 6*i, 200};
-//         lstAnimBody[i] = Anim{s_body, 6*i, 5 + 6*i, 200};
-//     } 
-// }
+    lstAnimBG   = new Anim[4];
+    lstAnimBody = new Anim[4];
 
-// void Amogus::draw(int t)
-// {
-//     Vector2 p;
-//     p.x = position.get_x();
-//     p.y = position.get_y();
-//     Amogus::lstAnimBG[dir].drawFrame(p, t, WHITE);
-//     Amogus::lstAnimBody[dir].drawFrame(p, t, ColorFromHSV((float)(t%360), 1., 1.));
-// }
+    for (int i = 0; i < 4; i++)
+    {
+        lstAnimBG[i]   = Anim{s_bg  , 6*i, 5 + 6*i, 200};
+        lstAnimBody[i] = Anim{s_body, 6*i, 5 + 6*i, 200};
+    } 
+}
+
+void Amogus::draw()
+{
+    int t = GetTime() * 30;
+    Vector2 p;
+    DrawCircle(position.get_x(), position.get_y(), DRAW_OUTLINE_RADIUS + DRAW_RADIUS, highlightColor);
+    p.x = position.get_x() - 48;
+    p.y = position.get_y() - 48;
+    Amogus::lstAnimBG[dir].drawFrame(p, t, WHITE);
+    Amogus::lstAnimBody[dir].drawFrame(p, t, ColorFromHSV((float)(t%360), 1., 1.));
+}

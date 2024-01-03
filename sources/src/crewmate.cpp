@@ -6,6 +6,11 @@ Color const Crewmate::CrewmateColor = {0,
 									   255,
 									   255
 									   };
+Color const Crewmate::SherifColor =   {0, 
+									   217,
+									   120,
+									   255
+									   };
 
 /// @brief a utiliser pour créer un crewmate sans task et sans infos
 /// et en dehors du jeu
@@ -185,5 +190,5 @@ void Crewmate::setTask(const vector<Task*>& listeTask)
 
 const Color& Crewmate::getRoleColor()
 {
-	return CrewmateColor;
+	return armed ? SherifColor : CrewmateColor ;
 }

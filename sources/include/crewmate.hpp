@@ -7,6 +7,7 @@ class Crewmate : public Amogus
 {
 	static float const DEFAULT_avoid; //définit le seuil de suspicion auquel on doit fuir l'Amogus concerné
 	static Color const CrewmateColor;
+	static Color const SherifColor;
 	bool occupe;
 	int action;
 	int cooldown_pasBouger;

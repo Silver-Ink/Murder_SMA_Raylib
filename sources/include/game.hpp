@@ -83,6 +83,7 @@ public:
     static Vect debug_txt_pos_def;
     static int debug_txt_size;
     static void drawDebugText(string txt);
+    static void drawArrow(Vect& p1, Vect& p2, Color& tint);
 
         //switch
         static bool show_debug_txt;

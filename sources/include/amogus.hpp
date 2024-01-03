@@ -69,6 +69,7 @@ class Amogus
         void moveToward(Vect* dest); 
 
         virtual void findNextDest(float offset) = 0;
+        virtual const Color& getRoleColor() = 0;
         virtual void update(float dt);
 
         void updateFacingDir(Vect& direction);

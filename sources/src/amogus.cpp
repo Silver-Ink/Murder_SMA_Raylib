@@ -162,5 +162,5 @@ void Amogus::draw()
     p.x = position.get_x() - 48;
     p.y = position.get_y() - 48;
     Amogus::lstAnimBG[dir].drawFrame(p, t, WHITE);
-    Amogus::lstAnimBody[dir].drawFrame(p, t, ColorFromHSV((float)(t%360), 1., 1.));
+    Amogus::lstAnimBody[dir].drawFrame(p, t, getRoleColor());
 }

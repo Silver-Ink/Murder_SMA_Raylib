@@ -6,6 +6,7 @@
 class Crewmate : public Amogus
 {
 	static float const DEFAULT_avoid; //définit le seuil de suspicion auquel on doit fuir l'Amogus concerné
+	static Color const CrewmateColor;
 	bool occupe;
 	int action;
 	int cooldown_pasBouger;
@@ -33,6 +34,7 @@ public:
 	void fuir();
  	void setTask(const vector<Task*> & listeTask);
 	virtual void findNextDest(float offset) override;
+	virtual const Color& getRoleColor() override;
 };
 
 #endif

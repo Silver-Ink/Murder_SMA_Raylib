@@ -29,11 +29,11 @@ void init_muder_game(int nbrCrewmate, int nbrImpostor, int nbrSherif, int nbrTas
 {
     Game::generate_entities(nbrCrewmate, nbrImpostor, nbrSherif, nbrTask);
     printf("Début?\n");
-    vector<Amogus*>::iterator amgs;
     printf("oui?\n");
-    for (amgs = Game::get_lstAmogus().begin(); amgs != Game::get_lstAmogus().end(); amgs++)
+    int n = Game::get_nbAmogus();
+    for (int i = 0; i < n; i++)
     {
-        if ((*amgs)->get_type() == 0)
+        if (Game::get_AmogusById(i)->get_type() == 0)
         {
             printf("CrewMate détecté\n");
         }

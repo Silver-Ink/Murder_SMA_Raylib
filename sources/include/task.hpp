@@ -18,6 +18,7 @@ class Task
         Task(float x, float y, int durees);
         //getter
         Vect& get_position();
+        Vect* get_adr_position();
         int get_duree();
         int get_taskId();
         //setter

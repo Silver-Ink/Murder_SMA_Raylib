@@ -58,6 +58,7 @@ public:
     static void generate_entities(int nb_cm, int nb_impos, int nb_sherif, int nb_task);
     static void melange_task(vector<Task*>& listeTask);
     static void update(float dt);
+    static void nextDest();
     static void draw();
 
     //getter

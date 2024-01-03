@@ -17,7 +17,7 @@ Imposteur::Imposteur(float x, float y, int i = 1) :
 
 void Imposteur::findNextDest()
 {
-	// a redéfinir
+	return;
 }
 const Color& Imposteur::getRoleColor()
 {

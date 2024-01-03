@@ -28,8 +28,6 @@ void init_amogus_dance(int n = 10)
 void init_muder_game(int nbrCrewmate, int nbrImpostor, int nbrSherif, int nbrTask)
 {
     Game::generate_entities(nbrCrewmate, nbrImpostor, nbrSherif, nbrTask);
-    printf("Début?\n");
-    printf("oui?\n");
     int n = Game::get_nbAmogus();
     for (int i = 0; i < n; i++)
     {

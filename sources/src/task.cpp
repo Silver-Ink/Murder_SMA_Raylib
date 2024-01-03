@@ -17,7 +17,9 @@ id(nextFreeID++)
 
 int Task::get_duree() {return duree;}
 
-Vect Task::get_position() {return position;}
+Vect& Task::get_position() {return position;}
+
+int Task::get_taskId() {return id;}
 
 int Task::getNextFreeId(){return nextFreeID;}
 

@@ -17,8 +17,9 @@ class Task
         Task();
         Task(float x, float y, int durees);
         //getter
-        Vect get_position();
+        Vect& get_position();
         int get_duree();
+        int get_taskId();
         //setter
         void set_position(Vect pos);
         void set_duree(int duree);

@@ -56,14 +56,22 @@ void Amogus::moveToward(Vect* dest)
     destination = dest;
 }
 
+
+/// @brief Change la direction du sprite utilisé
+/// @param direction vecteur de direction du déplacement
+void Amogus::updateFacingDir(Vect& direction)
+{
+    int d = direction.angle() / PI * 4. + 4.; // [0, 7]
+    if (d == 0) {d = 8;}                      // [1, 8]
+    d --;                                     // [0, 7]
+    d /= 2;                                   // [0, 3]
+    dir = d;
+}
+
 void Amogus::update(float dt)
 {
     Vect directionVect = *destination - position;
-    int d = directionVect.angle() / PI * 4. + 4.;
-    if (d == 0) {d = 7;}
-    d--;
-    d /= 2;
-    dir = d;
+    updateFacingDir(directionVect);
     directionVect.set_length(dt * speed);
     position += directionVect;
 }

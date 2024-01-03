@@ -59,10 +59,11 @@ void Crewmate::findNextDest(float offset)
 				/*On vérifie que la tâche la plus proche soit visible par le crewmate
 				 (on part du principe que lstTasks contient que des tâches non réalisés par le crewmate, dès qu'une tâche est réalisé, on la supprime de la liste)*/
 				Vect pos_task = curr->get_position(); //copie bit à bit
-				if((pos_task.in(position, DEFAULT_distVision)) && (pos_task.dist(position) < min_dist))
+				float dist_sq_task = pos_task.dist_sq(position);
+				if((pos_task.in(position, distVision)) && (dist_sq_task < min_dist))
 				{
 					id_task = ind;
-					min_dist = pos_task.dist(position);
+					min_dist = dist_sq_task;
 				} 
 				ind++;
 			}
@@ -70,7 +71,7 @@ void Crewmate::findNextDest(float offset)
 		}
 
 		
-		if(ind_next_task == -1) //Plus de tâche à faire ou aucunes tâches en vision
+		if(ind_next_task == -1 && destination == nullptr) //Plus de tâche à faire ou aucunes tâches en vision
 		{
 			//Appel méthode roam (se balader)
 		}
@@ -88,9 +89,10 @@ void Crewmate::findNextDest(float offset)
 				if(i != id)
 				{
 					Vect pos_amogus = Game::get_AmogusById(i)->get_position();
-					if((pos_amogus.in(position, DEFAULT_distVision)) && (pos_amogus.dist(position) < min_dist)) //Amogus différent de soi-même visible du champ de vision
+					float dist_sq_amogus = pos_amogus.dist(position);
+					if((pos_amogus.in(position, distVision)) && (dist_sq_amogus < min_dist)) //Amogus différent de soi-même visible du champ de vision
 					{
-						min_dist = pos_amogus.dist(position);
+						min_dist = dist_sq_amogus;
 						ind_sus = i;
 					}
 				}

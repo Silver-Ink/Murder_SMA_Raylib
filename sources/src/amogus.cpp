@@ -25,7 +25,7 @@ Amogus::Amogus(float x, float y, int types) :
     highlightColor(),
     id(nextFreeID++),
     type(types),
-    dir(0)
+    dir(2)
 {
     highlightColor.r = Game::rand_int1(50, 225);
     highlightColor.g = Game::rand_int1(50, 225);

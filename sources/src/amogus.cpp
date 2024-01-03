@@ -25,7 +25,7 @@ Amogus::Amogus(float x, float y, int types) :
     highlightColor(),
     id(nextFreeID++),
     type(types),
-    dir(0)
+    dir(2)
 {
     highlightColor.r = Game::rand_int1(50, 225);
     highlightColor.g = Game::rand_int1(50, 225);
@@ -55,6 +55,18 @@ void Amogus::setAlive(bool life) {alive = life;}
 void Amogus::moveToward(Vect* dest)
 {
     destination = dest;
+}
+
+
+/// @brief Change la direction du sprite utilisé
+/// @param direction vecteur de direction du déplacement
+void Amogus::updateFacingDir(Vect& direction)
+{
+    int d = direction.angle() / PI * 4. + 4.; // [0, 7]
+    if (d == 0) {d = 8;}                      // [1, 8]
+    d --;                                     // [0, 7]
+    d /= 2;                                   // [0, 3]
+    dir = d;
 }
 
 void Amogus::update(float dt)
@@ -150,5 +162,5 @@ void Amogus::draw()
     p.x = position.get_x() - 48;
     p.y = position.get_y() - 48;
     Amogus::lstAnimBG[dir].drawFrame(p, t, WHITE);
-    Amogus::lstAnimBody[dir].drawFrame(p, t, ColorFromHSV((float)(t%360), 1., 1.));
+    Amogus::lstAnimBody[dir].drawFrame(p, t, getRoleColor());
 }

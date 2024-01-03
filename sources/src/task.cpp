@@ -4,7 +4,6 @@
 Texture2D Task::sprite;
 
 int Task::nextFreeID = 0;
-Texture2D Task::sprite;
 
 Task::Task():Task(0., 0., 3) {}
 

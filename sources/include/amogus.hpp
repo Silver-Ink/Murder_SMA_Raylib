@@ -64,10 +64,15 @@ class Amogus
         void set_speed(float v);
         void setAlive(bool life);
         // autre
-        void moveToward(Vect* dest); //à modifier en cas de présence d'arguments
+        
         // Méthode abstraite qui determine la prochaine destination a suivre
+        void moveToward(Vect* dest); 
+
         virtual void findNextDest(float offset) = 0;
+        virtual const Color& getRoleColor() = 0;
         virtual void update(float dt);
+
+        void updateFacingDir(Vect& direction);
 
         virtual void draw();
         void drawDest();

@@ -1,6 +1,11 @@
 #include "to_include.hpp"
 
 float const Crewmate::DEFAULT_avoid = 0.7;
+Color const Crewmate::CrewmateColor = {0, 
+									   178,
+									   255,
+									   255
+									   };
 
 /// @brief a utiliser pour créer un crewmate sans task et sans infos
 /// et en dehors du jeu
@@ -176,3 +181,9 @@ void Crewmate::setTask(const vector<Task*>& listeTask)
 	On pourrait vérifier ici (ou ailleurs) qu'après d'avoir effectuer le pas, on regarde si l'Amogus a toujours sa tâche en vue (si il en a une) ou non.
 
 */
+
+
+const Color& Crewmate::getRoleColor()
+{
+	return CrewmateColor;
+}

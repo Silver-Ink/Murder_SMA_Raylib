@@ -16,7 +16,6 @@ class Task
         //constructeur
         Task();
         Task(float x, float y, int durees);
-        static Texture2D sprite;
         //getter
         Vect get_position();
         int get_duree();

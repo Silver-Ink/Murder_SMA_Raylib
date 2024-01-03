@@ -4,9 +4,14 @@
 
 class Imposteur : public Amogus{
 	public:
+		//const
+		static Color const ImposteurColor;
+
+
 		Imposteur();
 		Imposteur(float x, float y, int i);
-		virtual void findNextDest(float offset);
+		virtual void findNextDest(float offset) override;
+		virtual const Color& getRoleColor() override;
 };
 
 #endif

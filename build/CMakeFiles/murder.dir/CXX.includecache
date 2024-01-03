@@ -78,15 +78,47 @@ crewmate.hpp
 to_include.hpp
 /mnt/d/Bureau/Isima/second_annee/amongUs/Murder_SMA_Raylib/sources/include/to_include.hpp
 
+/mnt/d/Bureau/Isima/second_annee/amongUs/Murder_SMA_Raylib/sources/src/amogus.cpp
+to_include.hpp
+/mnt/d/Bureau/Isima/second_annee/amongUs/Murder_SMA_Raylib/sources/src/to_include.hpp
+
+/mnt/d/Bureau/Isima/second_annee/amongUs/Murder_SMA_Raylib/sources/src/anim.cpp
+to_include.hpp
+/mnt/d/Bureau/Isima/second_annee/amongUs/Murder_SMA_Raylib/sources/src/to_include.hpp
+
+/mnt/d/Bureau/Isima/second_annee/amongUs/Murder_SMA_Raylib/sources/src/crewmate.cpp
+to_include.hpp
+/mnt/d/Bureau/Isima/second_annee/amongUs/Murder_SMA_Raylib/sources/src/to_include.hpp
+
+/mnt/d/Bureau/Isima/second_annee/amongUs/Murder_SMA_Raylib/sources/src/game.cpp
+to_include.hpp
+/mnt/d/Bureau/Isima/second_annee/amongUs/Murder_SMA_Raylib/sources/src/to_include.hpp
+
+/mnt/d/Bureau/Isima/second_annee/amongUs/Murder_SMA_Raylib/sources/src/imposteur.cpp
+to_include.hpp
+/mnt/d/Bureau/Isima/second_annee/amongUs/Murder_SMA_Raylib/sources/src/to_include.hpp
+
+/mnt/d/Bureau/Isima/second_annee/amongUs/Murder_SMA_Raylib/sources/src/information.cpp
+to_include.hpp
+/mnt/d/Bureau/Isima/second_annee/amongUs/Murder_SMA_Raylib/sources/src/to_include.hpp
+
 /mnt/d/Bureau/Isima/second_annee/amongUs/Murder_SMA_Raylib/sources/src/main.cpp
 to_include.hpp
 /mnt/d/Bureau/Isima/second_annee/amongUs/Murder_SMA_Raylib/sources/src/to_include.hpp
 typeinfo
 -
 
+/mnt/d/Bureau/Isima/second_annee/amongUs/Murder_SMA_Raylib/sources/src/task.cpp
+to_include.hpp
+/mnt/d/Bureau/Isima/second_annee/amongUs/Murder_SMA_Raylib/sources/src/to_include.hpp
+
 /mnt/d/Bureau/Isima/second_annee/amongUs/Murder_SMA_Raylib/sources/src/to_include.hpp
 ../include/to_include.hpp
 /mnt/d/Bureau/Isima/second_annee/amongUs/Murder_SMA_Raylib/sources/include/to_include.hpp
+
+/mnt/d/Bureau/Isima/second_annee/amongUs/Murder_SMA_Raylib/sources/src/vect.cpp
+to_include.hpp
+/mnt/d/Bureau/Isima/second_annee/amongUs/Murder_SMA_Raylib/sources/src/to_include.hpp
 
 _deps/raylib-src/src/raylib.h
 stdarg.h

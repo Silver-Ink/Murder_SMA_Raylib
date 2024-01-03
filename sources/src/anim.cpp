@@ -22,11 +22,8 @@ Spritesheet::Spritesheet(string filename, int frameSize) :
             lstFrame[framePos].y = (float) (i * frameSize);
             lstFrame[framePos].width  = (float)(frameSize);
             lstFrame[framePos].height = (float)(frameSize);
-    cout << 'j' <<j << endl;
         }
-    cout << 'i' << i << endl;
     }
-    cout << "Spritesheet initialisee" << endl;
 }
 
 Rectangle Spritesheet::getFrame(int frameID)
@@ -56,8 +53,6 @@ Anim::Anim(Spritesheet* s, int start, int end, int fps)
     }            
     frameEnd ++;
 
-    cout << frameEnd << endl;            
-    cout << "Anim init !" << endl;            
 }
 
 void Anim::drawFrame(Vector2 pos, int t, Color tint)

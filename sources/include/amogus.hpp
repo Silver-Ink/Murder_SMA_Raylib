@@ -23,6 +23,7 @@ class Amogus
         Vect position;
         // Pointeur vers une position, qui permet de suivre une position mouvante
         Vect* destination;
+        Vect dest_prioritaire;
 
         float distVision;
         float distInterract;
@@ -32,6 +33,7 @@ class Amogus
 
         Color highlightColor;
         int id;
+        bool follow_dest;
 
         static int nextFreeID;
         // NE PAS ENLEVER
@@ -66,7 +68,9 @@ class Amogus
         // autre
         
         // Méthode abstraite qui determine la prochaine destination a suivre
-        void moveToward(Vect* dest); 
+        void setDestination(Vect* dest); 
+        void moveToward(Vect dest);
+        void moveToward(float angle_dir, float distance);
 
         virtual void findNextDest(float offset) = 0;
         virtual const Color& getRoleColor() = 0;

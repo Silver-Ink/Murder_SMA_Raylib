@@ -25,7 +25,8 @@ Amogus::Amogus(float x, float y, int types) :
     highlightColor(),
     id(nextFreeID++),
     type(types),
-    dir(2)
+    dir(2),
+    follow_dest(true)
 {
     highlightColor.r = Game::rand_int1(50, 225);
     highlightColor.g = Game::rand_int1(50, 225);
@@ -52,11 +53,26 @@ void Amogus::set_vision(float v){distVision = v;}
 void Amogus::set_speed(float v){speed = v;}
 void Amogus::setAlive(bool life) {alive = life;}
 
-void Amogus::moveToward(Vect* dest)
+void Amogus::setDestination(Vect* dest)
 {
     destination = dest;
 }
 
+/// @brief déplace le amongus peut importe sa destination
+/// @param dest position ABSOLUE à vers laquelle se déplacer.
+void Amogus::moveToward(Vect dest)
+{
+    dest_prioritaire = dest;
+    follow_dest = false;
+}
+
+/// @brief déplace le amongus peut importe sa destination
+/// @param angle_dir direction par rapport au amongus vers laquelle il se dirige
+void Amogus::moveToward(float angle_dir, float distance)
+{
+    Vect dest = {angle_dir, distance, true};
+    moveToward(dest);
+}
 
 /// @brief Change la direction du sprite utilisé
 /// @param direction vecteur de direction du déplacement
@@ -71,10 +87,16 @@ void Amogus::updateFacingDir(Vect& direction)
 
 void Amogus::update(float dt)
 {   
-    if (destination == nullptr)
+    Vect* local_dest = destination;
+    if (!follow_dest)
+    {
+        local_dest = &dest_prioritaire;
+    }
+    else if (destination == nullptr)
         return;
 
-    Vect dir = *destination - position;
+    Vect dir = *local_dest - position;
+    updateFacingDir(dir);
     dir.set_length(dt * speed);
     position += dir;
 }

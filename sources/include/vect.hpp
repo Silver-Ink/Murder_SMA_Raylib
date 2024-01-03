@@ -11,7 +11,7 @@ private:
 public:
     //constructor
     Vect();
-    Vect(float x, float y);
+    Vect(float x, float y, bool polar = false);
     //getter 
     float get_x();
     float get_y();

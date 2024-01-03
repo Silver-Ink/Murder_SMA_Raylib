@@ -16,13 +16,13 @@ void init_amogus_dance(int n = 10)
     {
         if (i < n-1)
         {
-            Game::get_AmogusById(i)->moveToward(&(Game::get_AmogusById(i+1)->get_position()));
+            Game::get_AmogusById(i)->setDestination(&(Game::get_AmogusById(i+1)->get_position()));
         }
         float a = PI * 2 / n * i;
         Vect offset{cos(a) * rad, sin(a) * rad};
         Game::get_AmogusById(i)->set_position(screenCenter + offset);
     }
-    Game::get_AmogusById(n-1)->moveToward(&(Game::get_AmogusById(0)->get_position()));
+    Game::get_AmogusById(n-1)->setDestination(&(Game::get_AmogusById(0)->get_position()));
 }
 
 void init_muder_game(int nbrCrewmate, int nbrImpostor, int nbrSherif, int nbrTask)

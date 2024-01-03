@@ -110,7 +110,7 @@ void Crewmate::fuir()
 		if(i != id)
 		{
 			Vect pos_amogus = Game::get_AmogusById(i)->get_position();
-			if((pos_amogus.in(position, DEFAULT_distVision)) && (pos_amogus.dist(position) < min_dist)) //Amogus différent de soi-même visible du champ de vision
+			if((pos_amogus.in(position, distVision)) && (pos_amogus.dist(position) < min_dist)) //Amogus différent de soi-même visible du champ de vision
 			{
 				min_dist = pos_amogus.dist(position);
 				ind_sus = i;

@@ -2,10 +2,21 @@
 
 Vect::Vect() {}
 
-Vect::Vect(float x, float y)
+/// @param x si polar, ce paramètre est l'ANGLE
+/// @param y si polar, ce paramètre est la NORME
+/// @param polar false par défaut
+Vect::Vect(float x, float y, bool polar)
 {
-    x_ = x;
-    y_ = y;
+    if (polar)
+    {
+        x_ = cos(x) * y;
+        y_ = sin(x) * y; 
+    }
+    else
+    {
+        x_ = x;
+        y_ = y;
+    }
 }
 
 float Vect::get_x()

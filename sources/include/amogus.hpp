@@ -33,6 +33,8 @@ class Amogus
 
         Color highlightColor;
         int id;
+        /// @brief Si vrai, se déplace vers la position contenue dans destination
+        /// Si faux, se déplace vers dest_prioritaire
         bool follow_dest;
 
         static int nextFreeID;
@@ -69,7 +71,11 @@ class Amogus
         
         // Méthode abstraite qui determine la prochaine destination a suivre
         void setDestination(Vect* dest); 
+
+        /// @brief Suit une destination prioritaire tant que follow_dest est faux
+        /// @param dest position a suivre
         void moveToward(Vect dest);
+        /// @brief Suit une destination prioritaire tant que follow_dest est faux
         void moveToward(float angle_dir, float distance);
 
         virtual void findNextDest(float offset) = 0;

@@ -15,7 +15,7 @@ Anim* Amogus::lstAnimBG = nullptr;
 Anim* Amogus::lstAnimBody = nullptr;
 
 
-Amogus::Amogus(float x, float y) : 
+Amogus::Amogus(float x, float y, int types) : 
     position(x, y),
     destination(nullptr),
     distVision(DEFAULT_distVision),
@@ -24,6 +24,7 @@ Amogus::Amogus(float x, float y) :
     alive(true),
     highlightColor(),
     id(nextFreeID++),
+    type(types),
     dir(0)
 {
     highlightColor.r = Game::rand_int1(50, 225);
@@ -32,7 +33,7 @@ Amogus::Amogus(float x, float y) :
     highlightColor.a = 255;
 }
 
-Amogus::Amogus() : Amogus(Game::rand_int1(0, 500), Game::rand_int1(0, 500))
+Amogus::Amogus() : Amogus(Game::rand_int1(0, 500), Game::rand_int1(0, 500), 0)
 {}
 
 
@@ -69,11 +70,18 @@ void Amogus::updateFacingDir(Vect& direction)
 }
 
 void Amogus::update(float dt)
+{   
+    if (destination == nullptr)
+        return;
+
+    Vect dir = *destination - position;
+    dir.set_length(dt * speed);
+    position += dir;
+}
+
+int Amogus::get_type()
 {
-    Vect directionVect = *destination - position;
-    updateFacingDir(directionVect);
-    directionVect.set_length(dt * speed);
-    position += directionVect;
+    return type;
 }
 
 // void Amogus::draw()

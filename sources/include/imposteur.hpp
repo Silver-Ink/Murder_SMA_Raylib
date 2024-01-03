@@ -3,7 +3,10 @@
 #include "to_include.hpp"
 
 class Imposteur : public Amogus{
-	virtual void findNextDest(float offset);
+	public:
+		Imposteur();
+		Imposteur(float x, float y, int i);
+		virtual void findNextDest(float offset);
 };
 
 #endif

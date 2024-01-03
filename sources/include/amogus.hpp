@@ -5,8 +5,7 @@
 
 #define AMOGUS_WIDTH 50
 //Pour gérer les effets de bord lors d'un mouvement
-#define SCREEN_WIDTH (1920)
-#define SCREEN_HEIGHT (1080)
+
 
 class Amogus
 {
@@ -29,6 +28,7 @@ class Amogus
         float distInterract;
         float speed;
         bool alive;
+        int type;
 
         Color highlightColor;
         int id;
@@ -47,13 +47,14 @@ class Amogus
         static Anim* lstAnimBody;
         // constructeur
         Amogus();
-        Amogus(float x, float y);
+        Amogus(float x, float y, int type);
 
         // getter
         Vect& get_position();
         float get_vision();
         float get_interaction();
         float get_speed();
+        int get_type();
         bool isAlive();
         static int getNextFreeId();
         // setter

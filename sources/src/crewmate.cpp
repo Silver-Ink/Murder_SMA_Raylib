@@ -4,27 +4,19 @@ float const Crewmate::DEFAULT_avoid = 0.7;
 
 /// @brief a utiliser pour créer un crewmate sans task et sans infos
 /// et en dehors du jeu
-Crewmate::Crewmate() : Amogus(100, 100) {}
+Crewmate::Crewmate() : Amogus(100, 100, 0) {}
 
 /// @brief Nécessite d'avoir initilisé game avant
 /// @param is_sherif si vrai, n'as pas de taches et a une arme dès le départ
 Crewmate::Crewmate(float x, float y, bool is_sherif) :
-	Amogus(x, y),
+	Amogus(x, y, 0),
 	armed(is_sherif),
 	nbTaskCleared(0),
-	ind_next_task(-1)
+	occupe(false),
+	action(0),
+	cooldown_pasBouger(0)
+	//ind_next_task(-1)
 {
-	if (!is_sherif)
-	{
-		// attribution des Task
-		int nbTask = Game::get_nbTaskPerCrewmate();
-		lstTasks.reserve(nbTask);
-		for (int i = 0; i < nbTask; i++)
-		{
-			lstTasks.push_back(Game::get_TaskById(i)); // a modifier 
-		}
-	}
-
 	// initialisation des info
 	int nbAmogus = Game::get_nbAmogus();
 	lstInfo.resize(nbAmogus);
@@ -45,111 +37,130 @@ int Crewmate::get_nbTaskCleared() {return nbTaskCleared;}
 /// @param offset Distance parcouru en une unité de temps
 void Crewmate::findNextDest(float offset)
 {
-	if(!armed)
+	int rand;
+	float randPos1, randPos2;
+	if (occupe)
+		return;
+	if (action == 1)
 	{
-		//On observe si le crewmate a une tâche en tête auquelle il pourrait se diriger, dans le cas contraire, on essaie de lui en trouver un tant qu'il existe encore des tâches à faire
-		if((ind_next_task == -1) && (nbTaskCleared < Game::get_nbTaskPerCrewmate()))
-		{
-			//Comme le crewmate n'a pas d'objectif en tête (ou alors perdu de vue), on parcourt l'ensemble des tâches pour essayer de lui en trouver un
-			int id_task = -1;
-			int ind = 0;
-			float min_dist = 99999999.;
-			for(Task * curr : lstTasks)
-			{
-				/*On vérifie que la tâche la plus proche soit visible par le crewmate
-				 (on part du principe que lstTasks contient que des tâches non réalisés par le crewmate, dès qu'une tâche est réalisé, on la supprime de la liste)*/
-				Vect pos_task = curr->get_position(); //copie bit à bit
-				float dist_sq_task = pos_task.dist_sq(position);
-				if((pos_task.in(position, distVision)) && (dist_sq_task < min_dist))
-				{
-					id_task = ind;
-					min_dist = dist_sq_task;
-				} 
-				ind++;
-			}
-			ind_next_task = id_task;
-		}
-
-		
-		if(ind_next_task == -1 && destination == nullptr) //Plus de tâche à faire ou aucunes tâches en vision
-		{
-			//Appel méthode roam (se balader)
-		}
-		else /*Il a un objectif, on vérifie maintenant les joueurs autour afin de savoir 
-			 si le crewmate peut se déplacer librement vers la tâche ou alors doit se méfie des autres Amogus et se déplace autrement*/
-		{
-			/*Ici, on parcourt les Amogus pour trouver celui le plus proche et réagir si celui-ci est trop suspect
-			  -> cas a modifier si on souhaite qq chose de plus complexe*/
-			int ind_sus = -1;
-			float min_dist = 999999999.;
-
-			//Recherche du Amogus le plus proche dans le champ de vision s'il existe
-			for(int i = 0; i < Game::get_nbAmogus(); i++)
-			{
-				if(i != id)
-				{
-					Vect pos_amogus = Game::get_AmogusById(i)->get_position();
-					float dist_sq_amogus = pos_amogus.dist(position);
-					if((pos_amogus.in(position, distVision)) && (dist_sq_amogus < min_dist)) //Amogus différent de soi-même visible du champ de vision
-					{
-						min_dist = dist_sq_amogus;
-						ind_sus = i;
-					}
-				}
-			}
-
-			//On vérifie si un quelconque Amogus est visible ou non
-			
-			if((ind_sus != -1) && lstInfo[ind_sus].sus >= DEFAULT_avoid) //-> On s'éloigne d'un pas s'il est trop suspect
-			{
-				Vect pos_amogus = Game::get_AmogusById(ind_sus)->get_position();
-				if((pos_amogus.get_x() > position.get_x()) && ((position.get_x()-offset) >= (DRAW_RADIUS/2)))
-				{
-					position.set_x(position.get_x()-offset);
-				}
-				else if((pos_amogus.get_x() < position.get_x()) && ((position.get_x()+offset) <= SCREEN_WIDTH-(DRAW_RADIUS/2)))
-				{
-					position.set_x(position.get_x()+offset);
-				}
-				if((pos_amogus.get_y() > position.get_y()) && ((position.get_y()-offset) >= (DRAW_RADIUS/2)))
-				{
-					position.set_y(position.get_y()-offset);
-				}
-				else if((pos_amogus.get_y() < position.get_y()) && ((position.get_y()+offset) <= SCREEN_HEIGHT-(DRAW_RADIUS/2)))
-				{
-					position.set_y(position.get_y()+offset);
-				}
-
-			}
-			else//-> On se dirige d'un pas vers la tâche
-			{
-				Vect pos_task = Game::get_TaskById(ind_next_task)->get_position();
-				if((pos_task.get_x() > position.get_x()) && ((position.get_x()+offset) <= SCREEN_WIDTH-(DRAW_RADIUS/2)))
-				{
-					position.set_x(position.get_x()+offset);
-				}
-				else if((pos_task.get_x() < position.get_x()) && ((position.get_x()-offset) >= (DRAW_RADIUS/2)))
-				{
-					position.set_x(position.get_x()-offset);
-				}
-				if((pos_task.get_y() > position.get_y())&& ((position.get_y()+offset) <= SCREEN_HEIGHT-(DRAW_RADIUS/2)))
-				{
-					position.set_y(position.get_y()+offset);
-				}
-				else if((pos_task.get_y() < position.get_y()) && ((position.get_y()-offset) >= (DRAW_RADIUS/2)))
-				{
-					position.set_y(position.get_y()-offset);
-				}
-			}
-
-		}
-
-		
+		fuir();
+		deplacer(offset, futur_pos);
+		if (futur_pos.in(position, 5))
+			action = 0;
+		return;
 	}
-	else
+	else if (action == 2)
 	{
-		//Appel méthode roam (se balader)
+		fuir();
+		deplacer(offset, futur_pos);
+		if (futur_pos.in(position, 5))
+			action = 0;
 	}
+	else if (action == 3)
+	{
+		fuir();
+		cooldown_pasBouger--;
+		if (cooldown_pasBouger <= 0)
+			action = 0;
+	}
+	else if (action == 4)
+	{
+		deplacer(offset, futur_pos);
+		if (futur_pos.in(position, 5))
+			action = 0;
+	}
+	else if (action == 0)
+	{	
+		rand = Game::rand_int2(0, 100);
+		if (rand < 65 && nbTaskCleared < Game::get_nbTaskPerCrewmate()) 
+		{ 
+			action = 1; 
+			futur_pos = Game::get_TaskById(nbTaskCleared)->get_position();
+		}
+		else if (rand < 85)
+		{
+			action = 2;
+			randPos1 = Game::rand_real2(0, Game::SCREEN_WIDTH -(DRAW_RADIUS/2));
+			randPos2 = Game::rand_real2(0, Game::SCREEN_HEIGHT-(DRAW_RADIUS/2));
+			futur_pos.set_x(randPos1);
+			futur_pos.set_y(randPos2);
+		}
+		else
+		{
+			action = 3;
+			cooldown_pasBouger = Game::rand_int2(400, 1400);
+		}
+	}
+}
+
+void Crewmate::fuir()
+{
+	/*Ici, on parcourt les Amogus pour trouver celui le plus proche et réagir si celui-ci est trop suspect
+	-> cas a modifier si on souhaite qq chose de plus complexe*/
+	int ind_sus = -1;
+	float min_dist = 999999999.;
+	//Recherche du Amogus le plus proche dans le champ de vision s'il existe
+	for(int i = 0; i < Game::get_nbAmogus(); i++)
+	{
+		if(i != id)
+		{
+			Vect pos_amogus = Game::get_AmogusById(i)->get_position();
+			if((pos_amogus.in(position, DEFAULT_distVision)) && (pos_amogus.dist(position) < min_dist)) //Amogus différent de soi-même visible du champ de vision
+			{
+				min_dist = pos_amogus.dist(position);
+				ind_sus = i;
+			}
+		}
+	}
+	//On vérifie si un quelconque Amogus est visible ou non
+	if((ind_sus != -1) && lstInfo[ind_sus].sus >= DEFAULT_avoid) 
+	{
+		Vect pos_amogus = Game::get_AmogusById(ind_sus)->get_position();
+		float randX, randY;
+		if((pos_amogus.get_x() > position.get_x())) {
+			randX = Game::rand_real2(0, position.get_x());
+		} else {
+			randX = Game::rand_real2(position.get_x(), Game::SCREEN_WIDTH-(DRAW_RADIUS/2));
+		}
+		if((pos_amogus.get_y() > position.get_y())) {
+			randY = Game::rand_real2(0, position.get_y());
+		} else {
+			randY = Game::rand_real2(position.get_y(), Game::SCREEN_HEIGHT-(DRAW_RADIUS/2));
+		}
+		futur_pos.set_x(randX);
+		futur_pos.set_y(randY);
+		action = 4;
+	}
+}
+
+void Crewmate::deplacer(float offset, Vect pos_task)
+{
+	if((pos_task.get_x() > position.get_x()) && ((position.get_x()+offset) <= Game::SCREEN_WIDTH -(DRAW_RADIUS/2)))
+	{
+		position.set_x(position.get_x()+offset);
+	}
+	else if((pos_task.get_x() < position.get_x()) && ((position.get_x()-offset) >= (DRAW_RADIUS/2)))
+	{
+		position.set_x(position.get_x()-offset);
+	}
+	if((pos_task.get_y() > position.get_y())&& ((position.get_y()+offset) <= Game::SCREEN_HEIGHT-(DRAW_RADIUS/2)))
+	{
+		position.set_y(position.get_y()+offset); 
+	}
+	else if((pos_task.get_y() < position.get_y()) && ((position.get_y()-offset) >= (DRAW_RADIUS/2)))
+	{
+		position.set_y(position.get_y()-offset);
+	}
+}
+
+vector<Task*> Crewmate::getTask()
+{
+	return lstTasks;
+}
+
+void Crewmate::setTask(const vector<Task*>& listeTask)
+{
+	lstTasks = listeTask;
 }
 
 /*void Crewmate::roam() -> il pourrait avoir en argument is_sherif pour distinguer des comportements différents ainsi que l'offset

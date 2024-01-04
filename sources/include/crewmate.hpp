@@ -9,10 +9,11 @@ class Crewmate : public Amogus
 	static Color const CrewmateColor;
 	bool * taskDone;
 	static Color const SherifColor;
-	bool occupe;
+	int occupe;
 	int action;
 	int cooldown_pasBouger;
 	int nbTaskCleared;
+	int ind_pp_task;
 	bool armed;
 	int ind_next_task; /*Indice de la tâche que compte réaliser le crewmate 
 						-> évite d'avoir à parcourir l'ens des tâches à chaque itération du jeu 

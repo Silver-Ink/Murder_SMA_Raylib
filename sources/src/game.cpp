@@ -112,8 +112,8 @@ void Game::melange_task(vector<Task*>& listeTask)
     int rand1, rand2;
     for (int i = 0; i < listeTask.size(); i++)
     {
-        rand1 = rand_int2(0, ((int) (RATIO_TASK_PER_CREWMATE * listeTask.size())));
-        rand2 = rand_int2(0, ((int) (RATIO_TASK_PER_CREWMATE * listeTask.size())));
+        rand1 = rand_int2(0, ((int) (listeTask.size())));
+        rand2 = rand_int2(0, ((int) (listeTask.size())));
         std::swap(listeTask[rand1], listeTask[rand2]);
     }
 }

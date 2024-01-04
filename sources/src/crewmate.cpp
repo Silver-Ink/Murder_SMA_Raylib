@@ -14,10 +14,10 @@ Crewmate::Crewmate(float x, float y, bool is_sherif) :
 	Amogus(x, y, 0),
 	armed(is_sherif),
 	nbTaskCleared(0),
-	occupe(false),
+	occupe(0),
 	action(0),
-	cooldown_pasBouger(0)
-	//ind_next_task(-1)
+	cooldown_pasBouger(0),
+	ind_pp_task(-1)
 {
 	// initialisation des info
 	int nbAmogus = Game::get_nbAmogus();
@@ -42,20 +42,33 @@ int Crewmate::PlusProcheTask()
 {
 	float min = 999999999.;
 	int ind_task = -1;
-	for(Task * curr : lstTasks)
-	{
-		//On vérifie que la task ne soit pas déjà réalisée
-		if(!taskDone[curr->get_taskId()])
+	for (int i = 0; i < Game::get_nbTaskPerCrewmate(); i++)
+    {
+		if(!taskDone[lstTasks.at(i)->get_taskId()])
 		{
-			//On vérifie qu'il soit dans le champ de vision du crewmate et de distance minimale
-			Vect pos_t = curr->get_position();
+			Vect pos_t = *(lstTasks.at(i)->get_adr_position());
 			if((pos_t.in(position, distVision)) && (pos_t.dist(position) < min))
 			{
 				min = pos_t.dist(position);
-				ind_task = curr->get_taskId();
+				ind_task = lstTasks.at(i)->get_taskId();
 			}	
 		}
 	}
+	// for(Task * curr : lstTasks)
+	// {
+	// 	//On vérifie que la task ne soit pas déjà réalisée
+	// 	if(!taskDone[curr->get_taskId()])
+	// 	{
+	// 		//On vérifie qu'il soit dans le champ de vision du crewmate et de distance minimale
+	// 		Vect pos_t = curr->get_position();
+	// 		if((pos_t.in(position, distVision)) && (pos_t.dist(position) < min))
+	// 		{
+	// 			min = pos_t.dist(position);
+	// 			ind_task = curr->get_taskId();
+	// 		}	
+	// 	}
+	// }
+	printf("RETOUR: %d \n", ind_task);
 	return ind_task;
 }
 
@@ -64,62 +77,81 @@ int Crewmate::PlusProcheTask()
 void Crewmate::findNextDest()
 {
 	int most_sus_id = get_most_sus();
-	printf("ACTION : %d\n", action);
+	//printf("ACTION : %d\n", action);
 	int rand;
 	float randPos1, randPos2;
-	if (occupe)
+	if (occupe > 0)
+	{
+		occupe--;
 		return;
+	}
 	if (action == 1)
 	{
-		printf("IF ACTION==1\n");
+		//printf("IF ACTION==1\n");
 		fuir(most_sus_id);
-		printf("IF ACTION==1 APRES FUIR\n");
-		if(!destination) printf("BOZO HAHAHAHAHAAH\n");
+		//printf("IF ACTION==1 APRES FUIR\n");
 		if (destination->in(position, distInterract)) //Lorsqu'on arrive à destination, on repasse à l'état neutre
+		{
+			printf("Confirmation RETOUR2: %d \n", ind_pp_task);
+			taskDone[ind_pp_task] = true;
+			nbTaskCleared++;
 			action = 0;
+			printf("Destination atteinte! Fin tâche: %d, idTask: %d\n", nbTaskCleared, ind_pp_task);
+			occupe = 200 * Game::get_TaskById(ind_pp_task)->get_duree();
+			printf("Duree: %d\n", occupe);
+		}
 		return;
 	}
 	else if (action == 2)
 	{
 		fuir(most_sus_id);
-		if(!destination) printf("BOZO HAHAHAHAHAAH\n");
 		if (destination->in(position, distInterract)) //Lorsqu'on arrive à destination, on repasse à l'état neutre
+		{
+			printf("Destination atteinte!\n");
 			action = 0;
+		}
 	}
 	else if (action == 3)
 	{
 		fuir(most_sus_id);
-		if(!destination) printf("BOZO HAHAHAHAHAAH\n");
-		printf("IF ACTION==3 APRES FUIR\n");
+		//if(!destination) printf("BOZO HAHAHAHAHAAH\n");
 		cooldown_pasBouger--;
-		if (cooldown_pasBouger <= 0) //Lorsque le temps de l'état immobile est écoulé
+		if (cooldown_pasBouger <= 0)
+		{
+			printf("JE BOUGE DE NOUVEAU!\n");
 			action = 0;
+		} //Lorsque le temps de l'état immobile est écoulé
 	}
 	else if (action == 4)
 	{
-		if(!destination) printf("BOZO HAHAHAHAHAAH\n");
+		//if(!destination) printf("BOZO HAHAHAHAHAAH\n");
 		if (destination->in(position, distInterract)) //Lorsqu'on arrive à destination, on repasse à l'état neutre
+		{
+			printf("Destination atteinte!\n");
 			action = 0;
+		}	
 	}
 	else //action == 0
 	{	
-		printf("ELSE ACTION 0\n");
 		rand = Game::rand_int2(0, 100);
+		if (nbTaskCleared >= Game::get_nbTaskPerCrewmate())
+			printf("FIN DE TACHE! :D \n");
 		if (rand < 65 && nbTaskCleared < Game::get_nbTaskPerCrewmate()) 
-		{ 
-			printf("RAND ACTION 1\n");
-			action = 1; 
+		{ 	 
 			follow_dest = true; 
 			/*Recherche de la task la plus proche*/
-			int ind_pp_task = PlusProcheTask();
+			ind_pp_task = PlusProcheTask();
+			printf("Confirmation RETOUR: %d \n", ind_pp_task);
 			if(ind_pp_task != -1) //Si on a une task en vue
 			{
+				action = 1;
+				printf("Task trouvé, je me déplace vers elle!\n");
 				setDestination(Game::get_TaskById(ind_pp_task)->get_adr_position());
 				follow_dest = true;
 			}
 			else //Sinon, on se déplace aléatoirement
 			{
-				printf("RAND ACTION 1 ALEATOIRE 2\n");
+				printf("Je vois pas de task donc je me déplace aléatoirement\n");
 				action = 2;
 				randPos1 = Game::rand_real2(DRAW_RADIUS/2, Game::SCREEN_WIDTH -(DRAW_RADIUS/2));
 				randPos2 = Game::rand_real2(DRAW_RADIUS/2, Game::SCREEN_HEIGHT-(DRAW_RADIUS/2));
@@ -135,7 +167,7 @@ void Crewmate::findNextDest()
 		}
 		else if (rand < 85) //Déplacement aléatoire
 		{
-			printf("RAND ACTION 2\n");
+			printf("Je me deplace aléatoirement\n");
 			action = 2;
 			randPos1 = Game::rand_real2(DRAW_RADIUS/2, Game::SCREEN_WIDTH -(DRAW_RADIUS/2));
 			randPos2 = Game::rand_real2(DRAW_RADIUS/2, Game::SCREEN_HEIGHT-(DRAW_RADIUS/2));
@@ -151,9 +183,9 @@ void Crewmate::findNextDest()
 		}
 		else //On ne bouge plus
 		{
-			printf("RAND ACTION 3\n");
 			action = 3;
 			cooldown_pasBouger = Game::rand_int2(400, 1400);
+			printf("Je ne bouge plus pendant %d sec\n", cooldown_pasBouger / 200);
 			setDestination(nullptr);
 			follow_dest = true;
 		}
@@ -188,7 +220,6 @@ void Crewmate::fuir(int ind_sus)
 	//On vérifie si un quelconque Amogus est visible ou non
 	if((ind_sus != -1) && lstInfo[ind_sus].sus >= DEFAULT_avoid) 
 	{
-		printf("IF DE FUIR!\n");
 		Vect pos_amogus = Game::get_AmogusById(ind_sus)->get_position();
 		float randX, randY;
 		if((pos_amogus.get_x() > position.get_x())) {
@@ -214,6 +245,7 @@ void Crewmate::fuir(int ind_sus)
 		setDestination(&dest_prioritaire);
 		follow_dest = true;
 		action = 4;
+		printf(" FUIR!\n");
 	}
 
 }

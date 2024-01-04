@@ -34,6 +34,11 @@ void init_muder_game(int nbrCrewmate, int nbrImpostor, int nbrSherif, int nbrTas
         if (Game::get_AmogusById(i)->get_type() == 0)
         {
             printf("CrewMate détecté\n");
+            for (int j = 0; j < nbrTask; j++)
+            {
+                printf("|%d|", ((Crewmate*) Game::get_AmogusById(i))->getTask().at(j)->get_taskId());
+            }
+            printf("\n");
         }
         else
         {
@@ -61,7 +66,7 @@ void startGameLoop()
 {
     while (!WindowShouldClose())
     {
-        printf("ENTREE BOUCLE\n");
+        //printf("ENTREE BOUCLE\n");
         Game::initScreen();
         if (IsKeyDown(KEY_LEFT_CONTROL) || IsKeyDown(KEY_RIGHT_CONTROL)) // DEBUG KEY
         {
@@ -76,7 +81,7 @@ void startGameLoop()
 
 int main(void)
 {   
-    init_muder_game(7, 1, 1, 5);
+    init_muder_game(1, 1, 0, 10);
     InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, WINDOW_TITLE);
     SetTargetFPS(200);
     Amogus::initAnim();

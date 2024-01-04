@@ -47,13 +47,14 @@ int Crewmate::get_nbTaskCleared() {return nbTaskCleared;}
 /// @param offset Distance parcouru en une unité de temps
 void Crewmate::findNextDest(float offset)
 {
+	int most_sus_id = get_most_sus();
 	int rand;
 	float randPos1, randPos2;
 	if (occupe)
 		return;
 	if (action == 1)
 	{
-		fuir();
+		fuir(most_sus_id);
 		deplacer(offset, futur_pos);
 		if (futur_pos.in(position, 5))
 			action = 0;
@@ -61,14 +62,14 @@ void Crewmate::findNextDest(float offset)
 	}
 	else if (action == 2)
 	{
-		fuir();
+		fuir(most_sus_id);
 		deplacer(offset, futur_pos);
 		if (futur_pos.in(position, 5))
 			action = 0;
 	}
 	else if (action == 3)
 	{
-		fuir();
+		fuir(most_sus_id);
 		cooldown_pasBouger--;
 		if (cooldown_pasBouger <= 0)
 			action = 0;
@@ -103,8 +104,9 @@ void Crewmate::findNextDest(float offset)
 	}
 }
 
-void Crewmate::fuir()
+int Crewmate::get_most_sus()
 {
+
 	/*Ici, on parcourt les Amogus pour trouver celui le plus proche et réagir si celui-ci est trop suspect
 	-> cas a modifier si on souhaite qq chose de plus complexe*/
 	int ind_sus = -1;
@@ -122,6 +124,11 @@ void Crewmate::fuir()
 			}
 		}
 	}
+	return ind_sus;
+}
+
+void Crewmate::fuir(int ind_sus)
+{
 	//On vérifie si un quelconque Amogus est visible ou non
 	if((ind_sus != -1) && lstInfo[ind_sus].sus >= DEFAULT_avoid) 
 	{
@@ -191,4 +198,13 @@ void Crewmate::setTask(const vector<Task*>& listeTask)
 const Color& Crewmate::getRoleColor()
 {
 	return armed ? SherifColor : CrewmateColor ;
+}
+
+void Crewmate::checkDead(int id)
+{
+	if (Game::get_AmogusById(id)->isAlive() == false && lstInfo[id].alive)
+	{
+		lstInfo[id].alive = false;
+		lstInfo[id].deathPos = Game::get_AmogusById(id)->get_position();
+	}
 }

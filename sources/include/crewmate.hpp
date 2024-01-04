@@ -20,6 +20,9 @@ class Crewmate : public Amogus
 
 	vector<Task*> lstTasks;
 	vector<Information> lstInfo;
+	void checkDead(int id);
+	int get_most_sus();
+
 
 public:
 	int get_nbTaskCleared();
@@ -32,7 +35,7 @@ public:
 
 	vector<Task*> getTask();
 	void deplacer(float offset, Vect pos_task);
-	void fuir();
+	void fuir(int ind_sus);
  	void setTask(const vector<Task*> & listeTask);
 	virtual void findNextDest(float offset) override;
 	virtual const Color& getRoleColor() override;

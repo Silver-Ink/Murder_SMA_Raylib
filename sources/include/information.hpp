@@ -10,6 +10,8 @@ struct Information{
 	/// @brief false si le amogus a été vu mort
 	bool alive;
 
+	Vect deathPos;
+
 
 	Information();
 };

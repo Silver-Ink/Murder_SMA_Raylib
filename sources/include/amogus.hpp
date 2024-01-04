@@ -66,9 +66,11 @@ class Amogus
         void set_vision(float v);
         void set_interaction(float dist_interract);
         void set_speed(float v);
-        void setAlive(bool life);
+        void die();
         // autre
-        
+
+        ///vérifie si le amogus en vue est mort
+
         // Méthode abstraite qui determine la prochaine destination a suivre
         void setDestination(Vect* dest); 
 

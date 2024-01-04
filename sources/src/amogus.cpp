@@ -51,7 +51,7 @@ void Amogus::set_position(Vect pos) {position = pos;}
 void Amogus::set_interaction(float i){distInterract = i;}
 void Amogus::set_vision(float v){distVision = v;}
 void Amogus::set_speed(float v){speed = v;}
-void Amogus::setAlive(bool life) {alive = life;}
+void Amogus::die() {alive = false;}
 
 void Amogus::setDestination(Vect* dest)
 {

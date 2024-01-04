@@ -17,9 +17,9 @@ Imposteur::Imposteur(float x, float y, int i = 1) :
 	int nbAmogus = Game::get_nbAmogus();
 }
 
-void Imposteur::findNextDest(float offset)
+void Imposteur::findNextDest()
 {
-	int rand;
+	/*int rand;
 	float randPos1;
 	float randPos2;
 	if (action == 1 || action == 2)
@@ -56,7 +56,8 @@ void Imposteur::findNextDest(float offset)
 			cooldown_pasBouger = Game::rand_int2(400, 1400);
 			setDestination(nullptr);
 		}
-	}
+	}*/
+	return;
 }
 
 bool Imposteur::chase()
@@ -101,6 +102,7 @@ bool Imposteur::chase()
 		if (rand < 5)
 			return true;
 	}
+	return false;
 }
 
 const Color& Imposteur::getRoleColor()

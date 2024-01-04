@@ -9,12 +9,10 @@ class Imposteur : public Amogus{
 		bool chasser;
 		int cooldown_pasBouger;
 		static Color const ImposteurColor;
-
-
 		Imposteur();
 		Imposteur(float x, float y, int i);
 		bool chase();
-		virtual void findNextDest(float offset) override;
+		virtual void findNextDest() override;
 		virtual const Color& getRoleColor() override;
 };
 

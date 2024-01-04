@@ -1,7 +1,7 @@
 #include "to_include.hpp"
 
 float const Amogus::DEFAULT_distVision = 600.;
-float const Amogus::DEFAULT_distInterract = 20.;
+float const Amogus::DEFAULT_distInterract = 100.;
 float const Amogus::DEFAULT_vitesse = 20.;
 
 float const Amogus::DRAW_RADIUS = 52;
@@ -62,8 +62,10 @@ void Amogus::setDestination(Vect* dest)
 /// @param dest position ABSOLUE à vers laquelle se déplacer.
 void Amogus::moveToward(Vect dest)
 {
+    printf("MOVETOWARD\n");
     dest_prioritaire = dest;
     follow_dest = false;
+    printf("FIN MOVETOWARD\n");
 }
 
 /// @brief déplace le amongus peut importe sa destination
@@ -122,25 +124,13 @@ int Amogus::get_type()
 
 void Amogus::drawDest()
 {
-    if (destination != nullptr)
+    if (follow_dest && destination != nullptr)
     {
-        DrawLineEx((Vector2)position,
-                   (Vector2)(*destination),
-                   3.,
-                   highlightColor);
-        // DrawLineBezier((Vector2)position, (Vector2)(*destination), 4., highlightColor);
-        
-
-        float edge = 10;
-        float angle = (*destination - position).angle();
-        Vector2 v1{};
-        float angleOffSet = Vect::toRad(30);
-        v1.x = destination->get_x() - cos(angle - angleOffSet) * edge;
-        v1.y = destination->get_y() - sin(angle - angleOffSet) * edge;
-        Vector2 v2{};
-        v2.x = destination->get_x() - cos(angle + angleOffSet) * edge;
-        v2.y = destination->get_y() - sin(angle + angleOffSet) * edge;
-        DrawTriangle((Vector2)(*destination), v2, v1, highlightColor);
+        Game::drawArrow(position, *destination, highlightColor);
+    }
+    else if (!follow_dest)
+    {
+        Game::drawArrow(position, dest_prioritaire, highlightColor);
     }
     else
     {

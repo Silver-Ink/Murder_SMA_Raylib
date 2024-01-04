@@ -69,6 +69,15 @@ void Game::update(float dt)
     }
 }
 
+void Game::nextDest()
+{
+    vector<Amogus*>::iterator amgs;
+    for (amgs = lstAmogus.begin(); amgs != lstAmogus.end(); amgs++)
+    {
+        (*amgs)->findNextDest();
+    }
+}
+
 void Game::draw()
 {
     vector<Amogus*>::iterator amgs;
@@ -233,6 +242,26 @@ void Game::drawDebugText(string txt)
         const Vector2 text_size = MeasureTextEx(GetFontDefault(), txt.c_str(), debug_txt_size, 1);
         debug_txt_pos += Vect(0, text_size.y);
     }
+}
+void Game::drawArrow(Vect& p1, Vect& p2, Color& tint)
+{
+    DrawLineEx((Vector2)p1,
+                   (Vector2)(p2),
+                   3.,
+                   tint);
+        // DrawLineBezier((Vector2)position, (Vector2)(*destination), 4., highlightColor);
+        
+
+        float edge = 10;
+        float angle = (p1 - p2).angle();
+        Vector2 v1{};
+        float angleOffSet = Vect::toRad(30);
+        v1.x = p1.get_x() - cos(angle - angleOffSet) * edge;
+        v1.y = p1.get_y() - sin(angle - angleOffSet) * edge;
+        Vector2 v2{};
+        v2.x = p2.get_x() - cos(angle + angleOffSet) * edge;
+        v2.y = p2.get_y() - sin(angle + angleOffSet) * edge;
+        DrawTriangle((Vector2)(p2), v2, v1, tint);
 }
 bool Game::show_debug_txt = true;
 bool Game::show_all_dest = false;

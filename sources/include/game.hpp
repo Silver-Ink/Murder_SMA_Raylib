@@ -58,6 +58,7 @@ public:
     static void generate_entities(int nb_cm, int nb_impos, int nb_sherif, int nb_task);
     static void melange_task(vector<Task*>& listeTask);
     static void update(float dt);
+    static void nextDest();
     static void draw();
 
     //getter
@@ -83,6 +84,7 @@ public:
     static Vect debug_txt_pos_def;
     static int debug_txt_size;
     static void drawDebugText(string txt);
+    static void drawArrow(Vect& p1, Vect& p2, Color& tint);
 
         //switch
         static bool show_debug_txt;

@@ -1,16 +1,8 @@
 #include "to_include.hpp"
 
 float const Crewmate::DEFAULT_avoid = 0.7;
-Color const Crewmate::CrewmateColor = {0, 
-									   178,
-									   255,
-									   255
-									   };
-Color const Crewmate::SherifColor =   {0, 
-									   217,
-									   120,
-									   255
-									   };
+Color const Crewmate::CrewmateColor = {0, 178, 255, 255};
+Color const Crewmate::SherifColor   = {0, 217, 120, 255};
 
 /// @brief a utiliser pour créer un crewmate sans task et sans infos
 /// et en dehors du jeu
@@ -71,6 +63,7 @@ int Crewmate::PlusProcheTask()
 /// @param offset Distance parcouru en une unité de temps
 void Crewmate::findNextDest()
 {
+	int most_sus_id = get_most_sus();
 	printf("ACTION : %d\n", action);
 	int rand;
 	float randPos1, randPos2;
@@ -79,7 +72,7 @@ void Crewmate::findNextDest()
 	if (action == 1)
 	{
 		printf("IF ACTION==1\n");
-		fuir();
+		fuir(most_sus_id);
 		printf("IF ACTION==1 APRES FUIR\n");
 		if(!destination) printf("BOZO HAHAHAHAHAAH\n");
 		if (destination->in(position, distInterract)) //Lorsqu'on arrive à destination, on repasse à l'état neutre
@@ -88,14 +81,14 @@ void Crewmate::findNextDest()
 	}
 	else if (action == 2)
 	{
-		fuir();
+		fuir(most_sus_id);
 		if(!destination) printf("BOZO HAHAHAHAHAAH\n");
 		if (destination->in(position, distInterract)) //Lorsqu'on arrive à destination, on repasse à l'état neutre
 			action = 0;
 	}
 	else if (action == 3)
 	{
-		fuir();
+		fuir(most_sus_id);
 		if(!destination) printf("BOZO HAHAHAHAHAAH\n");
 		printf("IF ACTION==3 APRES FUIR\n");
 		cooldown_pasBouger--;
@@ -167,9 +160,9 @@ void Crewmate::findNextDest()
 	} 
 }
 
-
-void Crewmate::fuir()
+int Crewmate::get_most_sus()
 {
+
 	/*Ici, on parcourt les Amogus pour trouver celui le plus proche et réagir si celui-ci est trop suspect
 	-> cas a modifier si on souhaite qq chose de plus complexe*/
 	int ind_sus = -1;
@@ -187,7 +180,11 @@ void Crewmate::fuir()
 			}
 		}
 	}
+	return ind_sus;
+}
 
+void Crewmate::fuir(int ind_sus)
+{
 	//On vérifie si un quelconque Amogus est visible ou non
 	if((ind_sus != -1) && lstInfo[ind_sus].sus >= DEFAULT_avoid) 
 	{
@@ -235,4 +232,13 @@ void Crewmate::setTask(const vector<Task*>& listeTask)
 const Color& Crewmate::getRoleColor()
 {
 	return armed ? SherifColor : CrewmateColor ;
+}
+
+void Crewmate::checkDead(int id)
+{
+	if (Game::get_AmogusById(id)->isAlive() == false && lstInfo[id].alive)
+	{
+		lstInfo[id].alive = false;
+		lstInfo[id].deathPos = Game::get_AmogusById(id)->get_position();
+	}
 }

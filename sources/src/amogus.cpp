@@ -2,7 +2,7 @@
 
 float const Amogus::DEFAULT_distVision = 600.;
 float const Amogus::DEFAULT_distInterract = 100.;
-float const Amogus::DEFAULT_vitesse = 20.;
+float const Amogus::DEFAULT_vitesse = 100.;
 
 float const Amogus::DRAW_RADIUS = 52;
 float const Amogus::DRAW_OUTLINE_RADIUS = 4;
@@ -51,7 +51,7 @@ void Amogus::set_position(Vect pos) {position = pos;}
 void Amogus::set_interaction(float i){distInterract = i;}
 void Amogus::set_vision(float v){distVision = v;}
 void Amogus::set_speed(float v){speed = v;}
-void Amogus::setAlive(bool life) {alive = life;}
+void Amogus::die() {alive = false;}
 
 void Amogus::setDestination(Vect* dest)
 {

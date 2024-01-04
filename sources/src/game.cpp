@@ -69,6 +69,15 @@ void Game::update(float dt)
     }
 }
 
+void Game::nextDest()
+{
+    vector<Amogus*>::iterator amgs;
+    for (amgs = lstAmogus.begin(); amgs != lstAmogus.end(); amgs++)
+    {
+        (*amgs)->findNextDest();
+    }
+}
+
 void Game::draw()
 {
     vector<Amogus*>::iterator amgs;

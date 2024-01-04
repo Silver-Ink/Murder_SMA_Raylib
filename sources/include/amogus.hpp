@@ -80,7 +80,7 @@ class Amogus
         /// @brief Suit une destination prioritaire tant que follow_dest est faux
         void moveToward(float angle_dir, float distance);
 
-        virtual void findNextDest(float offset) = 0;
+        virtual void findNextDest() = 0;
         virtual const Color& getRoleColor() = 0;
         virtual void update(float dt);
 

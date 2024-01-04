@@ -10,7 +10,7 @@ class Imposteur : public Amogus{
 
 		Imposteur();
 		Imposteur(float x, float y, int i);
-		virtual void findNextDest(float offset) override;
+		virtual void findNextDest() override;
 		virtual const Color& getRoleColor() override;
 };
 

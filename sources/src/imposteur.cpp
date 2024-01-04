@@ -15,9 +15,9 @@ Imposteur::Imposteur(float x, float y, int i = 1) :
 	int nbAmogus = Game::get_nbAmogus();
 }
 
-void Imposteur::findNextDest(float offset)
+void Imposteur::findNextDest()
 {
-	// a redéfinir
+	return;
 }
 const Color& Imposteur::getRoleColor()
 {

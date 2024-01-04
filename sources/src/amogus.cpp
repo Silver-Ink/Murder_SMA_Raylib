@@ -1,7 +1,7 @@
 #include "to_include.hpp"
 
 float const Amogus::DEFAULT_distVision = 600.;
-float const Amogus::DEFAULT_distInterract = 20.;
+float const Amogus::DEFAULT_distInterract = 100.;
 float const Amogus::DEFAULT_vitesse = 20.;
 
 float const Amogus::DRAW_RADIUS = 52;
@@ -62,8 +62,10 @@ void Amogus::setDestination(Vect* dest)
 /// @param dest position ABSOLUE à vers laquelle se déplacer.
 void Amogus::moveToward(Vect dest)
 {
+    printf("MOVETOWARD\n");
     dest_prioritaire = dest;
     follow_dest = false;
+    printf("FIN MOVETOWARD\n");
 }
 
 /// @brief déplace le amongus peut importe sa destination

@@ -49,6 +49,7 @@ class Amogus
         static Spritesheet* s_body;
         static Anim* lstAnimBG;
         static Anim* lstAnimBody;
+        static Texture2D deadSprite;
         // constructeur
         Amogus();
         Amogus(float x, float y, int type);

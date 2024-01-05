@@ -13,6 +13,7 @@ Spritesheet* Amogus::s_bg = nullptr ;
 Spritesheet* Amogus::s_body = nullptr;
 Anim* Amogus::lstAnimBG = nullptr;
 Anim* Amogus::lstAnimBody = nullptr;
+Texture2D Amogus::deadSprite;
 
 
 Amogus::Amogus(float x, float y, int types) : 
@@ -164,6 +165,8 @@ void Amogus::initAnim()
         lstAnimBG[i]   = Anim{s_bg  , 6*i, 5 + 6*i, 200};
         lstAnimBody[i] = Anim{s_body, 6*i, 5 + 6*i, 200};
     } 
+
+    deadSprite = LoadTexture(ASSETS_PATH "dead.png");
 }
 
 void Amogus::draw()
@@ -175,7 +178,14 @@ void Amogus::draw()
     p.y = position.get_y() - 48;
     if (p.x > -50 && p.x < 1970 && p.y > -50 && p.y < 1130) 
     {
-        Amogus::lstAnimBG[dir].drawFrame(p, t, WHITE);
-        Amogus::lstAnimBody[dir].drawFrame(p, t, getRoleColor());
+        if (alive)
+        {
+            Amogus::lstAnimBG[dir].drawFrame(p, t, WHITE);
+            Amogus::lstAnimBody[dir].drawFrame(p, t, getRoleColor());
+        }
+        else
+        {
+            DrawTextureV(deadSprite, p, getRoleColor());
+        }
     }
 }

@@ -28,8 +28,8 @@ void Game::generate_entities(int nb_cm, int nb_impos, int nb_sherif, int nb_task
 
     for (int i = 0; i < nb_task; i++)
     {
-        rand1 = rand_real2(0.0, SCREEN_WIDTH);
-        rand2 = rand_real2(0.0, SCREEN_HEIGHT);
+        rand1 = rand_real2(Crewmate::DRAW_RADIUS, SCREEN_WIDTH - Crewmate::DRAW_RADIUS);
+        rand2 = rand_real2(Crewmate::DRAW_RADIUS, SCREEN_HEIGHT - Crewmate::DRAW_RADIUS);
         printf("%lf && %lf\n", rand1, rand2);
         rand3 = rand_int2(0, 10);
         lstTask.push_back(new Task(rand1, rand2, rand3));
@@ -39,13 +39,17 @@ void Game::generate_entities(int nb_cm, int nb_impos, int nb_sherif, int nb_task
 
     for (int i = 0; i < nb_impos; i++)
     {
-        lstAmogus.push_back(new Imposteur{});
+        rand1 = rand_real2(Crewmate::DRAW_RADIUS, SCREEN_WIDTH - Crewmate::DRAW_RADIUS);
+        rand2 = rand_real2(Crewmate::DRAW_RADIUS, SCREEN_HEIGHT - Crewmate::DRAW_RADIUS);
+        printf("%lf && %lf et %d\n", rand1, rand2, i);
+        Imposteur* newImpos = new Imposteur(rand1, rand2, 1);
+        lstAmogus.push_back(newImpos); 
     }
 
     for (int i = 0; i < nb_cm; i++)
     {
-        rand1 = rand_real2(0.0, SCREEN_WIDTH);
-        rand2 = rand_real2(0.0, SCREEN_HEIGHT);
+        rand1 = rand_real2(Crewmate::DRAW_RADIUS, SCREEN_WIDTH - Crewmate::DRAW_RADIUS);
+        rand2 = rand_real2(Crewmate::DRAW_RADIUS, SCREEN_HEIGHT - Crewmate::DRAW_RADIUS);
         printf("%lf && %lf et %d\n", rand1, rand2, i);
         Crewmate* newCrewmate = new Crewmate(rand1, rand2, nb_sherif-- > 0);
         if (nb_sherif < 1)
@@ -54,8 +58,7 @@ void Game::generate_entities(int nb_cm, int nb_impos, int nb_sherif, int nb_task
             newCrewmate->setTask(listetask);
 
         }
-        lstAmogus.push_back(newCrewmate);
-        
+        lstAmogus.push_back(newCrewmate); 
     }
     printf("FIN\n");
 }
@@ -97,7 +100,6 @@ void Game::draw()
             (*amgs)->drawDest();
         }
     }
-
     vector<Task*>::iterator task;
     for (task = lstTask.begin(); task != lstTask.end(); task++)
     {

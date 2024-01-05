@@ -23,6 +23,7 @@ set(PROJECT_INCLUDE "${CMAKE_CURRENT_LIST_DIR}/sources") # Define PROJECT_INCLUD
 
 # Declaring our executable
 add_executable(${PROJECT_NAME})
+set(CMAKE_BUILD_TYPE Debug)
 target_sources(${PROJECT_NAME} PRIVATE ${PROJECT_SOURCES})
 target_include_directories(${PROJECT_NAME} PRIVATE ${PROJECT_INCLUDE})
 target_link_libraries(${PROJECT_NAME} PRIVATE raylib)

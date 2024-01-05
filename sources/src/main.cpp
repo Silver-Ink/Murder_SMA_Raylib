@@ -6,24 +6,24 @@
 
 #define WINDOW_TITLE "AMOGUS"
 
-void init_amogus_dance(int n = 10)
-{
-    Game::generate_entities(n, 0, 0, 0);
-    Vect screenCenter{SCREEN_WIDTH / 2., SCREEN_HEIGHT / 2.};
-    float rad = 300;
+// void init_amogus_dance(int n = 10)
+// {
+//     Game::generate_entities(n, 0, 0, 0);
+//     Vect screenCenter{SCREEN_WIDTH / 2., SCREEN_HEIGHT / 2.};
+//     float rad = 300;
 
-    for (int i = 0; i < n; i++)
-    {
-        if (i < n-1)
-        {
-            Game::get_AmogusById(i)->setDestination(&(Game::get_AmogusById(i+1)->get_position()));
-        }
-        float a = PI * 2 / n * i;
-        Vect offset{cos(a) * rad, sin(a) * rad};
-        Game::get_AmogusById(i)->set_position(screenCenter + offset);
-    }
-    Game::get_AmogusById(n-1)->setDestination(&(Game::get_AmogusById(0)->get_position()));
-}
+//     for (int i = 0; i < n; i++)
+//     {
+//         if (i < n-1)
+//         {
+//             Game::get_AmogusById(i)->setDestination(&(Game::get_AmogusById(i+1)->get_position()));
+//         }
+//         float a = PI * 2 / n * i;
+//         Vect offset{cos(a) * rad, sin(a) * rad};
+//         Game::get_AmogusById(i)->set_position(screenCenter + offset);
+//     }
+//     Game::get_AmogusById(n-1)->setDestination(&(Game::get_AmogusById(0)->get_position()));
+// }
 
 void init_muder_game(int nbrCrewmate, int nbrImpostor, int nbrSherif, int nbrTask)
 {
@@ -81,7 +81,7 @@ void startGameLoop()
 
 int main(void)
 {   
-    init_muder_game(1, 1, 0, 10);
+    init_muder_game(10, 1, 0, 10);
     InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, WINDOW_TITLE);
     SetTargetFPS(200);
     Amogus::initAnim();

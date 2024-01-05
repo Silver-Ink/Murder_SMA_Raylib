@@ -52,12 +52,17 @@ Anim::Anim(Spritesheet* s, int start, int end, int fps)
         frameEnd = s->getNbFrame() - 1;                                                                                                                                                   
     }            
     frameEnd ++;
-
 }
 
 void Anim::drawFrame(Vector2 pos, int t, Color tint)
 {
-    int frameID = (t / frameDuration) % (frameEnd - frameStart) + frameStart;
+    int frameID;
+    // printf("t = %d\n", t);
+    // printf("frameEnd = %d\n", frameEnd);
+    // printf("frameStart = %d\n", frameStart);
+    // printf("frameDuration = %d\n", frameDuration);
+    if (frameDuration != 0)
+        frameID = (t / frameDuration) % (frameEnd - frameStart) + frameStart;
     // cout << frameID << endl;
     DrawTextureRec(spritesheet->texture, spritesheet->getFrame(frameID), pos, tint); 
     // cout << "1" << spritesheet->texture.id << endl;

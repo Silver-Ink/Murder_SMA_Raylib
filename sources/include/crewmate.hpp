@@ -12,7 +12,7 @@ class Crewmate : public Amogus
 	int occupe;
 	int action;
 	int cooldown_kill;
-	int cooldown_pasBouger;
+	float cooldown_pasBouger;
 	int nbTaskCleared;
 	int ind_pp_task;
 	int id_victime;

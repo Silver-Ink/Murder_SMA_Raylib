@@ -54,7 +54,7 @@ void Imposteur::findNextDest()
 		{
 			chase();
 		}
-		cooldown_pasBouger--;
+		cooldown_pasBouger -= Game::dt;
 		if (cooldown_pasBouger <= 0)
 		{
 			//printf("Je bouge DE NOUVEAU!\n");
@@ -107,7 +107,7 @@ void Imposteur::findNextDest()
 		{
 			//printf("Je ne bouge pas\n");
 			action = 3;
-			cooldown_pasBouger = Game::rand_int2(400, 1400);
+			cooldown_pasBouger = Game::rand_real1(2, 8);
 			setDestination(nullptr);
 			follow_dest = true;
 		}

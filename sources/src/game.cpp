@@ -25,12 +25,26 @@ void Game::generate_entities(int nb_cm, int nb_impos, int nb_sherif, int nb_task
 
     float rand1, rand2;
     int rand3; //temps necessaire pour faire la tâche
+    
+    int nbTx = ceil(sqrtf(nb_task));
+    int nbTy = ceil(nb_task / nbTx);
+
+    float xStep = (SCREEN_WIDTH - Crewmate::DRAW_RADIUS * 4)  / nbTx;
+    float yStep = (SCREEN_HEIGHT - Crewmate::DRAW_RADIUS * 8) / nbTy;
+
+
 
     for (int i = 0; i < nb_task; i++)
     {
-        rand1 = rand_real2(Crewmate::DRAW_RADIUS, SCREEN_WIDTH - Crewmate::DRAW_RADIUS);
-        rand2 = rand_real2(Crewmate::DRAW_RADIUS, SCREEN_HEIGHT - Crewmate::DRAW_RADIUS);
-        printf("%lf && %lf\n", rand1, rand2);
+        float xGrid = floorf(i% nbTx);
+        float yGrid = floorf(i/ nbTy);
+
+        // rand1 = rand_real2(Crewmate::DRAW_RADIUS, SCREEN_WIDTH - Crewmate::DRAW_RADIUS);
+        // rand2 = rand_real2(Crewmate::DRAW_RADIUS, SCREEN_HEIGHT - Crewmate::DRAW_RADIUS);
+        rand1 = rand_real2(xGrid * xStep, (xGrid+1) * xStep) + Crewmate::DRAW_RADIUS * 2;
+        rand2 = rand_real2(yGrid * yStep, (yGrid+1) * yStep) + Crewmate::DRAW_RADIUS * 2;
+        // rand1 = SCREEN_WIDTH - Crewmate::DRAW_RADIUS*2;
+        printf("x =%lf\ty = %lf\n", rand1, rand2);
         rand3 = rand_int2(0, 10);
         lstTask.push_back(new Task(rand1, rand2, rand3));
     }

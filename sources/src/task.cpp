@@ -28,6 +28,7 @@ int Task::getNextFreeId(){return nextFreeID;}
 void Task::draw()
 {
     DrawTexture(sprite, position.get_x() - 48, position.get_y() - 48, WHITE);
+    DrawText(to_string(id).c_str(), position.get_x(), position.get_y(), 15, BLACK);
 }
 
 void Task::initAnim()

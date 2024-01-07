@@ -129,7 +129,7 @@ void Crewmate::findNextDest()
 	{
 		if (!armed || (armed && cooldown_kill <= 0))
 			fuirOrChase();
-		cooldown_pasBouger--;
+		cooldown_pasBouger -= Game::dt;
 		if (cooldown_pasBouger <= 0)
 		{
 			//printf("JE BOUGE DE NOUVEAU!\n");
@@ -220,7 +220,7 @@ void Crewmate::findNextDest()
 		else //On ne bouge plus
 		{
 			action = 3;
-			cooldown_pasBouger = Game::rand_int2(400, 1400);
+			cooldown_pasBouger = Game::rand_real1(2, 8);
 			//printf("Je ne bouge plus pendant %d sec\n", cooldown_pasBouger / 200);
 			setDestination(nullptr);
 			follow_dest = true;

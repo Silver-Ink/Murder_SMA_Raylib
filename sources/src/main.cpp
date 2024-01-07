@@ -78,10 +78,9 @@ void startGameLoop()
 
 int main(void)
 {   
-    //std::cout << time(NULL) << std::endl;
-    unsigned long state[] = {0, 0, 0, 0, 1704661422};
+    unsigned long state[] = {0, 0, 0, 0, time(NULL)};
     init_by_array(state, 5);
-    init_muder_game(9, 3, 3, 10);
+    init_muder_game(9, 1, 1, 10);
     InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, WINDOW_TITLE);
     SetTargetFPS(200);
     Amogus::initAnim();

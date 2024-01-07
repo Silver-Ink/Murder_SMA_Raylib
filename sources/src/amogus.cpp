@@ -148,7 +148,7 @@ void Amogus::drawDest()
 
 void Amogus::drawVisionRange()
 {
-    DrawCircleLinesV((Vector2)position, distVision, GRAY);
+    DrawCircleLinesV((Vector2)position, distVision, highlightColor);
 }
 void Amogus::drawInteractRange()
 {

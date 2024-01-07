@@ -7,25 +7,11 @@
 
 #define WINDOW_TITLE "AMOGUS"
 
-// void init_amogus_dance(int n = 10)
-// {
-//     Game::generate_entities(n, 0, 0, 0);
-//     Vect screenCenter{SCREEN_WIDTH / 2., SCREEN_HEIGHT / 2.};
-//     float rad = 300;
-
-//     for (int i = 0; i < n; i++)
-//     {
-//         if (i < n-1)
-//         {
-//             Game::get_AmogusById(i)->setDestination(&(Game::get_AmogusById(i+1)->get_position()));
-//         }
-//         float a = PI * 2 / n * i;
-//         Vect offset{cos(a) * rad, sin(a) * rad};
-//         Game::get_AmogusById(i)->set_position(screenCenter + offset);
-//     }
-//     Game::get_AmogusById(n-1)->setDestination(&(Game::get_AmogusById(0)->get_position()));
-// }
-
+/// @brief Initialise l'ensemble des Amongus pour la simulation
+/// @param nbrCrewmate Nombre de crewmate
+/// @param nbrImpostor Nombre d'imposter
+/// @param nbrSherif Nombre de Sherif PARMIS les crewmates
+/// @param nbrTask Nombre de tâches
 void init_muder_game(int nbrCrewmate, int nbrImpostor, int nbrSherif, int nbrTask)
 {
     Game::generate_entities(nbrCrewmate, nbrImpostor, nbrSherif, nbrTask);
@@ -67,6 +53,7 @@ void init_muder_game(int nbrCrewmate, int nbrImpostor, int nbrSherif, int nbrTas
     }
 }*/
 
+/// @brief Boucle infinie de la simulation du murder
 void startGameLoop()
 {
     while (!WindowShouldClose())
@@ -99,10 +86,12 @@ int main(void)
     Task::initAnim();
     Game::bgImage = LoadTexture(ASSETS_PATH "bg.png");
     startGameLoop();
+    std::cout << "-----------------------------------" << std::endl;
     if (Game::get_nbCrewmateAlive() == 0)
         std::cout << "Les Imposteurs ont gagnés!" << std::endl;
     else
         std::cout << "Les Crewmates ont gagnés!" << std::endl;
+    std::cout << "-----------------------------------" << std::endl;
     CloseWindow();    
 
     return 0;

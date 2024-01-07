@@ -79,12 +79,16 @@ void Game::generate_entities(int nb_cm, int nb_impos, int nb_sherif, int nb_task
     printf("FIN\n");
 }
 
+/// @brief Détermine si la partie est terminée ou pas
+/// @return un booléan (true si partie terminée)
 bool Game::testEndGame()
 {
     //printf("C: %d , I: %d\n", get_nbCrewmateAlive(), get_nbImpostorAlive());
     return (get_nbCrewmateAlive() == 0 ||get_nbImpostorAlive() == 0);
 }
 
+/// @brief Appelle la fonction update de chaque Amongus
+/// @param dt delta time
 void Game::update(float dt)
 {
     vector<Amogus*>::iterator amgs;
@@ -94,6 +98,7 @@ void Game::update(float dt)
     }
 }
 
+/// @brief Met à jour la nouvelle destination de chaque amongus
 void Game::nextDest()
 {
     vector<Amogus*>::iterator amgs;
@@ -103,6 +108,7 @@ void Game::nextDest()
     }
 }
 
+/// @brief Dessine les informations du Amongus
 void Game::draw()
 {
     vector<Amogus*>::iterator amgs;
@@ -133,6 +139,8 @@ void Game::draw()
     
 }
 
+/// @brief Mélange des tâches dans une liste
+/// @param listeTask (la liste à mélanger)
 void Game::melange_task(vector<Task*>& listeTask)
 {
     int rand1, rand2;
@@ -144,60 +152,84 @@ void Game::melange_task(vector<Task*>& listeTask)
     }
 }
 
+/// @brief Retourne le nombre d'amongus
+/// @return le nombre d'amongus
 int Game::get_nbAmogus()
 {
 	return lstAmogus.capacity();
 }
 
+/// @brief Retourne le nombre d'amongus encore en vie
+/// @return le nombre d'amongus encore en vie
 int Game::get_nbAmogusAlive()
 {
 	return nb_crewmate + nb_impostor;
 }
 
+/// @brief Retourne le nombre de crewmate encore en vie
+/// @return le nombre de crewmate encore en vie
 int Game::get_nbCrewmateAlive()
 {
 	return nb_crewmate;
 }
 
+/// @brief Retourne le nombre d'imposteur encore en vie
+/// @return le nombre d'imposteur encore en vie
 int Game::get_nbImpostorAlive()
 {
 	return nb_impostor;
 }
 
+/// @brief Décrémente le nombre de crewmate encore en vie
 void Game::killCrewmate()
 {
     nb_crewmate--;
 }
+
+/// @brief Décrémente le nombre d'imposteur encore en vie
 void Game::killImposteur()
 {
     nb_impostor--;
 }
 
+/// @brief Récupère l'amongus correspondant par rapport à son id
+/// @param id id de l'amongus
+/// @return l'amongus en question
 Amogus* Game::get_AmogusById(int id)
 {
 	return lstAmogus[id];
 }
 
+/// @brief Récupère la tâche correspondant par rapport à son id
+/// @param id id de la tâche
+/// @return la tâche en question
 Task* Game::get_TaskById(int id)
 {
 	return lstTask[id];
 }
 
+/// @brief récupère le nombre totale de tâches
+/// @return le nombre totale de tâches
 int Game::get_nbPhysicalTask()
 {
     return lstTask.capacity();
 }
 
+/// @brief récupère le nombre totale de tâche à faire par crewmate
+/// @return le nombre de tâches totale à faire par crewmate
 int Game::get_nbTaskPerCrewmate()
 {
     return (int)(RATIO_TASK_PER_CREWMATE * (float)get_nbPhysicalTask());
 }
 
+/// @brief retourne la liste d'amongus
+/// @return la liste d'amongus
 vector<Amogus *> Game::get_lstAmogus()
 {
     return lstAmogus;
 }
 
+/// @brief Intialise l'affichage
 void Game::initScreen()
 {
     dt = GetFrameTime();
@@ -279,6 +311,7 @@ void Game::drawDebugText(string txt)
         debug_txt_pos += Vect(0, text_size.y);
     }
 }
+
 void Game::drawArrow(Vect& p1, Vect& p2, Color& tint)
 {
     DrawLineEx((Vector2)p1,

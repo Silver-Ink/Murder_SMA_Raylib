@@ -19,6 +19,7 @@ Imposteur::Imposteur(float x, float y, int i = 1) :
 	int nbAmogus = Game::get_nbAmogus();
 }
 
+/// @brief Determine la nouvelle destination de l'imposteur
 void Imposteur::findNextDest()
 {
 	int rand;
@@ -115,6 +116,7 @@ void Imposteur::findNextDest()
 	return;
 }
 
+/// @brief Déterminer si l'importeur va tuer un crewmate ou non
 void Imposteur::chase()
 {
 	int rand;
@@ -177,12 +179,15 @@ void Imposteur::chase()
 	}
 }
 
+/// @brief Update la destination de l'imposteur vers un crewmate
 void Imposteur::kill()
 {
 	setDestination(&Game::get_AmogusById(id_victime)->get_position());
 	action = 4;
 }
 
+/// @brief renvoie la couleur de l'imposteur
+/// @return la couleur de l'imposteur
 const Color& Imposteur::getRoleColor()
 {
 	return ImposteurColor;

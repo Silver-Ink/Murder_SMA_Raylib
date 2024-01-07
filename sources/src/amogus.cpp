@@ -2,7 +2,7 @@
 
 float const Amogus::DEFAULT_distVision = 300.;
 float const Amogus::DEFAULT_distInterract = 50.;
-float const Amogus::DEFAULT_vitesse = 300.;
+float const Amogus::DEFAULT_vitesse = 250.;
 
 float const Amogus::DRAW_RADIUS = 52;
 float const Amogus::DRAW_OUTLINE_RADIUS = 4;
@@ -176,7 +176,7 @@ void Amogus::draw()
     DrawCircle(position.get_x(), position.get_y(), DRAW_OUTLINE_RADIUS + DRAW_RADIUS, highlightColor);
     p.x = position.get_x() - 48;
     p.y = position.get_y() - 48;
-    if (dir < 0 ||dir > 3) {cout << "probleme d'affichage\n"; return;} 
+    if (dir < 0 ||dir > 3) {return;} 
     if (p.x > -50 && p.x < 1970 && p.y > -50 && p.y < 1130)
     {
         if (alive)

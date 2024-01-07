@@ -26,9 +26,9 @@ Crewmate::Crewmate(float x, float y, bool is_sherif) :
 	for (int i = 0; i < Game::get_nbAmogus(); i++)
 	{
 		if (i == id)
-			lstInfo.at(i).sus = 0; // suspition envers soit-meme a zéro
+			lstInfo.at(i).sus = 0.0; // suspition envers soit-meme a zéro
 		else
-			lstInfo.at(i).sus = 1 / (Game::get_nbAmogus() - 1);	
+			lstInfo.at(i).sus = (float) Game::get_nbImpostorAlive() / (float) (Game::get_nbAmogus() - 1);	
 	}
 	taskDone = new bool[Game::get_nbPhysicalTask()];
 	for(int i = 0; i < Game::get_nbPhysicalTask(); i++) taskDone[i] = false;
@@ -304,15 +304,16 @@ void Crewmate::updateInfo()
 						Vect pos_amogus2 = Game::get_AmogusById(j)->get_position();
 						if(pos_amogus2.in(position, distVision) && Game::get_AmogusById(j)->isAlive())
 						{
-							printf("susAvant: %lf\n", lstInfo.at(j).sus);
-							lstInfo.at(j).sus += 10.0;
-							printf("susApres: %lf\n", lstInfo.at(j).sus);
+							lstInfo.at(j).sus += 0.1;
+							if (armed && Game::get_AmogusById(j)->get_type() == 1)
+								printf("Je vois un imposteur avec %lf %% d'être imposteur\n",lstInfo.at(j).sus );
 						}
 						else if (!pos_amogus2.in(position, distVision) && Game::get_AmogusById(j)->isAlive())
 						{
-							float min = 1 / (Game::get_nbCrewmateAlive() + Game::get_nbImpostorAlive() - 1);
+							float min = (float) Game::get_nbImpostorAlive() / (float) (Game::get_nbCrewmateAlive() + Game::get_nbImpostorAlive() - 1);
 							if (lstInfo.at(j).sus < min)
 							{
+								printf("Mise à jour des autres à %lf %% d'être imposteur\n", min);
 								//TODO: parcourir plutôt les infos pour compter le nombre de personne encore en vie que le sherif a en tête et non pas la variable static
 								lstInfo.at(j).sus = min;
 							}

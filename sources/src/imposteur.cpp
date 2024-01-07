@@ -44,7 +44,7 @@ void Imposteur::findNextDest()
 
 		if (destination->in(position, 5))
 		{
-			printf("Destination atteinte!\n");
+			//printf("Destination atteinte!\n");
 			action = 0;
 		}
 	}
@@ -57,7 +57,7 @@ void Imposteur::findNextDest()
 		cooldown_pasBouger--;
 		if (cooldown_pasBouger <= 0)
 		{
-			printf("Je bouge DE NOUVEAU!\n");
+			//printf("Je bouge DE NOUVEAU!\n");
 			action = 0;
 		}
 	}
@@ -68,7 +68,10 @@ void Imposteur::findNextDest()
 			printf("------------------------\nTUER\n--------------------------\n");
 			cooldown_kill = 4000;
 			Game::get_AmogusById(id_victime)->die();
-			Game::killCrewmate();
+			if (Game::get_AmogusById(id_victime)->get_type() == 0)
+				Game::killCrewmate();
+			else
+				Game::killImposteur();
 			action = 0;
 		}
 	}
@@ -77,14 +80,14 @@ void Imposteur::findNextDest()
 		rand = Game::rand_int2(0, 100);
 		if (rand < 50)  // Prend les coordonnée d'une task aléatoire et s'y dirige
 		{ 
-			printf("Je vais chercher une task!\n");
+			//printf("Je vais chercher une task!\n");
 			action = 1; 
 			rand = Game::rand_int2(0, Game::get_nbPhysicalTask());
 			setDestination(Game::get_TaskById(rand)->get_adr_position());
 		}
 		else if (rand < 75) // se déplace aléatoirement
 		{
-			printf("Je me déplace aléatoirement\n");
+			//printf("Je me déplace aléatoirement\n");
 			action = 2;
 			randPos1 = Game::rand_real2(DRAW_RADIUS, Game::SCREEN_WIDTH -(DRAW_RADIUS));
 			randPos2 = Game::rand_real2(DRAW_RADIUS, Game::SCREEN_HEIGHT-(DRAW_RADIUS));
@@ -97,7 +100,7 @@ void Imposteur::findNextDest()
 		}
 		else // ne bouge pas
 		{
-			printf("Je ne bouge pas\n");
+			//printf("Je ne bouge pas\n");
 			action = 3;
 			cooldown_pasBouger = Game::rand_int2(400, 1400);
 			setDestination(nullptr);

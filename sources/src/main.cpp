@@ -81,6 +81,8 @@ void startGameLoop()
         Game::update(Game::dt);
         Game::draw();
         EndDrawing();
+        Game::drawDebugText(to_string(Game::get_nbCrewmateAlive()));
+        Game::drawDebugText(to_string(Game::get_nbImpostorAlive()));
         if (Game::testEndGame())
             return;
     }
@@ -88,7 +90,7 @@ void startGameLoop()
 
 int main(void)
 {   
-    init_muder_game(8, 2, 1, 10);
+    init_muder_game(12, 2, 3, 10);
     InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, WINDOW_TITLE);
     SetTargetFPS(200);
     Amogus::initAnim();

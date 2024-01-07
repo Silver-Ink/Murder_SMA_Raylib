@@ -154,7 +154,7 @@ void Amogus::drawDest()
 /// @brief dessine la portée de vision de l'amongus
 void Amogus::drawVisionRange()
 {
-    DrawCircleLinesV((Vector2)position, distVision, GRAY);
+    DrawCircleLinesV((Vector2)position, distVision, highlightColor);
 }
 
 /// @brief dessine la portée de l"interaction de l'amongus

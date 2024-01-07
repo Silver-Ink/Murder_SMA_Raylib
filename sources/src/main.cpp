@@ -82,6 +82,7 @@ int main(void)
     SetTargetFPS(200);
     Amogus::initAnim();
     Task::initAnim();
+    Game::bgImage = LoadTexture(ASSETS_PATH "bg.png");
     startGameLoop();
     if (Game::get_nbCrewmateAlive() == 0)
         std::cout << "Les Imposteurs ont gagnés!" << std::endl;

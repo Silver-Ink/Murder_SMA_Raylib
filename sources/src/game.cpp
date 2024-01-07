@@ -7,6 +7,7 @@ const float Game::SCREEN_WIDTH = 1920.;
 
 
 float Game::dt = 0;
+Texture2D Game::bgImage;
 
 /// @brief Génère de nouveaux amogus pour une nouvelle partie
 /// @param nb_cm nombre de crewmate (comprends le nb de shérifs)
@@ -232,8 +233,9 @@ void Game::initScreen()
 {
     dt = GetFrameTime();
     BeginDrawing();
-
-    ClearBackground(RAYWHITE);
+    // Color bg = {27, 8, 81, 255};
+    // ClearBackground(bg);
+    DrawTexture(bgImage, 0, 0, WHITE);
     debug_txt_pos = debug_txt_pos_def;
     drawDebugText("FPS : " + std::to_string(GetFPS()));
 }

@@ -42,6 +42,7 @@ private:
     static int nb_completed_tasks;
 
 
+
 public:
     //RNG
     /// @brief entier aléatoire dans [min, max]
@@ -96,6 +97,7 @@ public:
         static bool show_all_interaction_range;
 
     static void initScreen();
+    static Texture2D bgImage;
 };
 
 #endif

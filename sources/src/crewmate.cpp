@@ -139,20 +139,23 @@ void Crewmate::findNextDest()
 	{
 		if (destination->in(position, distInterract)) //Lorsqu'on arrive à destination, on repasse à l'état neutre
 		{
-			Game::get_AmogusById(id_victime)->die();
-			if (Game::get_AmogusById(id_victime)->get_type() == 0)
+			if (Game::get_AmogusById(id_victime)->isAlive())
 			{
-				printf("Oups, tu étais trop sus désolé....\n");
-				printf("Cet Amogus avait %lf chance d'être un tueur\n", lstInfo.at(id_victime).sus);
-				Game::killCrewmate();
+				Game::get_AmogusById(id_victime)->die();
+				if (Game::get_AmogusById(id_victime)->get_type() == 0)
+				{
+					printf("Oups, tu étais trop sus désolé....\n");
+					printf("Cet Amogus avait %lf chance d'être un tueur\n", lstInfo.at(id_victime).sus);
+					Game::killCrewmate();
+				}
+				else
+				{
+					printf("Meurt, vile méchant!\n");
+					printf("Cet Amogus avait %lf chance d'être un tueur\n", lstInfo.at(id_victime).sus);
+					Game::killImposteur();
+				}
+				cooldown_kill = 4000;
 			}
-			else
-			{
-				printf("Meurt, vile méchant!\n");
-				printf("Cet Amogus avait %lf chance d'être un tueur\n", lstInfo.at(id_victime).sus);
-				Game::killImposteur();
-			}
-			cooldown_kill = 4000;
 			action = 0;
 		}	
 	}

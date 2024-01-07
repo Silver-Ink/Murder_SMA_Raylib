@@ -1,6 +1,7 @@
 #include "to_include.hpp"
 #include <typeinfo>
 #include <iostream>
+#include <time.h>
 
 #define SCREEN_WIDTH (1920)
 #define SCREEN_HEIGHT (1080)
@@ -67,9 +68,9 @@ void startGameLoop()
         Game::nextDest();
         Game::update(Game::dt);
         Game::draw();
+        Game::drawDebugText("Nbre Crewmate:" + to_string(Game::get_nbCrewmateAlive()));
+        Game::drawDebugText("Nbre Imposteur:" + to_string(Game::get_nbImpostorAlive()));
         EndDrawing();
-        Game::drawDebugText(to_string(Game::get_nbCrewmateAlive()));
-        Game::drawDebugText(to_string(Game::get_nbImpostorAlive()));
         if (Game::testEndGame())
             return;
     }
@@ -77,9 +78,10 @@ void startGameLoop()
 
 int main(void)
 {   
-    unsigned long state[] = {0, 0, 0, 0, time(NULL)};
+    //std::cout << time(NULL) << std::endl;
+    unsigned long state[] = {0, 0, 0, 0, 1704661422};
     init_by_array(state, 5);
-    init_muder_game(9, 1, 1, 10);
+    init_muder_game(9, 3, 3, 10);
     InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, WINDOW_TITLE);
     SetTargetFPS(200);
     Amogus::initAnim();
@@ -92,6 +94,8 @@ int main(void)
     else
         std::cout << "Les Crewmates ont gagnés!" << std::endl;
     std::cout << "-----------------------------------" << std::endl;
+    WaitTime(10);
+    
     CloseWindow();    
 
     return 0;

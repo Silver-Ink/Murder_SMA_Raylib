@@ -1,11 +1,11 @@
 #include "to_include.hpp"
 
+/// @brief Contient les informations et les données sur la spritesheet
+/// @param filename nom de l'image a charger
+/// @param frameSize largeur d'une frame de la spritesheet
 Spritesheet::Spritesheet(string filename, int frameSize) :
                          frameSize(frameSize)
 {
-    cout << "-" << endl;
-    cout << filename.c_str() << endl;
-    cout << "-" << endl;
     texture = LoadTexture(filename.c_str());
     nbFrameW = texture.width  / frameSize;
     nbFrameH = texture.height / frameSize;
@@ -26,11 +26,13 @@ Spritesheet::Spritesheet(string filename, int frameSize) :
     }
 }
 
+/// @brief Réccupère les coordonnées d'une image depuis la liste d'image
+/// @param frameID id de l'image voulue
+/// @return coordonnées de l'image actuelle
 Rectangle Spritesheet::getFrame(int frameID)
 {
     return  lstFrame[frameID];
 }
-
 int Spritesheet::getNbFrame()
 {
     return nbFrame;
@@ -41,6 +43,11 @@ Anim::Anim(string filename, int frameSize, int start, int end, int fps) :
             Anim(new Spritesheet(filename, frameSize), start, end, fps)
             {}
 
+/// @brief créée une animation étant un partie des images dans une spritesheet
+/// @param s spritesheet a utiliser pour l'image
+/// @param start image de début
+/// @param end image de fin
+/// @param fps image par seconde
 Anim::Anim(Spritesheet* s, int start, int end, int fps)
 {
     spritesheet = s;
@@ -54,6 +61,10 @@ Anim::Anim(Spritesheet* s, int start, int end, int fps)
     frameEnd ++;
 }
 
+/// @brief Dessine l'animation au temps t
+/// @param pos position de dessin
+/// @param t moment de l'animation a dessiner (timer)
+/// @param tint couleur
 void Anim::drawFrame(Vector2 pos, int t, Color tint)
 {
     int frameID;

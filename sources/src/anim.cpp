@@ -74,6 +74,8 @@ void Anim::drawFrame(Vector2 pos, int t, Color tint)
     // DrawTextureRec(spritesheet->texture, Rectangle{0., 0., 16., 16.} , Vector2{}, tint); 
 }
 
+/// @brief Récupère le temps necessaire à une animation complète
+/// @return le temps necessaire à une animation complète
 int Anim::getAnimDuration()
 {
     return (frameEnd - frameStart) * frameDuration;

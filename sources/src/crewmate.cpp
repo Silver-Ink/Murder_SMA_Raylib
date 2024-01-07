@@ -40,11 +40,17 @@ Crewmate::~Crewmate()
 	lstInfo.clear(); // pas des pointeurs donc pas besoin de free
 }
 
+/// @brief Fonction qui renvoie true si le crewmate est un Shérif
+/// @return la valeur de armed
 int Crewmate::is_armed() {return armed;}
 
+/// @brief Retourne le nombre de tâches terminées par le Crewmate
+/// @return le nombre de tâches terminées par le Crewmate
 int Crewmate::get_nbTaskCleared() {return nbTaskCleared;}
 
-//Renvoie -1 si aucune task n'a été trouvé.
+
+/// @brief Recherche la tâche la plus proche dans le champ de vision
+/// @return -1 si aucune tâche trouvé, sinon, l'id de la tâche la plus proche
 int Crewmate::PlusProcheTask()
 {
 	float min = 999999999.;
@@ -61,24 +67,10 @@ int Crewmate::PlusProcheTask()
 			}	
 		}
 	}
-	// for(Task * curr : lstTasks)
-	// {
-	// 	//On vérifie que la task ne soit pas déjà réalisée
-	// 	if(!taskDone[curr->get_taskId()])
-	// 	{
-	// 		//On vérifie qu'il soit dans le champ de vision du crewmate et de distance minimale
-	// 		Vect pos_t = curr->get_position();
-	// 		if((pos_t.in(position, distVision)) && (pos_t.dist(position) < min))
-	// 		{
-	// 			min = pos_t.dist(position);
-	// 			ind_task = curr->get_taskId();
-	// 		}	
-	// 	}
-	// }
 	return ind_task;
 }
 
-/// @brief Déplace le crewmate en fonction du contexte
+/// @brief Trouve la nouvelle destination d'un Crewmate
 /// @param offset Distance parcouru en une unité de temps
 void Crewmate::findNextDest()
 {
@@ -228,6 +220,7 @@ void Crewmate::findNextDest()
 	} 
 }
 
+/// @brief Recherche les Amongus dans les environs, s'ils sont trop suspects, un shérifs va le tuer et un crewmate va fuire
 void Crewmate::fuirOrChase()
 {
 	for (int i = 0; i < Game::get_nbAmogus(); i++)
@@ -271,27 +264,36 @@ void Crewmate::fuirOrChase()
 	}
 }
 
-
+/// @brief Retourne la liste de tâches d'un crewmate
+/// @return la liste de tâche d'un crewmate
 vector<Task*> Crewmate::getTask()
 {
 	return lstTasks;
 }
 
+/// @brief Défini la liste de tâches d'un crewmate
+/// @param listeTask : la liste de tâche à affecter au crewmate
 void Crewmate::setTask(const vector<Task*>& listeTask)
 {
 	lstTasks = listeTask;
 }
 
+/// @brief Retourne le pourcentage de suspicion d'un Amongus selon son id
+/// @param nbr l'id de l'amongus
+/// @return le pourcentage de suspicion
 float Crewmate::getSusById(int nbr)
 {
 	return lstInfo.at(nbr).sus;
 }
 
+/// @brief Récupère la couleur d'un Crewmate ou d'un Shérif
+/// @return la couleur selon si c'est un crewmate ou un shérif
 const Color& Crewmate::getRoleColor()
 {
 	return armed ? SherifColor : CrewmateColor ;
 }
 
+/// @brief Update la liste de suspicion par Amongus (% de chance d'être imposteur)
 void Crewmate::updateInfo()
 {
     for (int i = 0; i < Game::get_nbAmogus(); i++)
@@ -317,7 +319,6 @@ void Crewmate::updateInfo()
 							float min = (float) Game::get_nbImpostorAlive() / (float) (Game::get_nbCrewmateAlive() + Game::get_nbImpostorAlive() - 1);
 							if (lstInfo.at(j).sus < min)
 							{
-								//TODO: parcourir plutôt les infos pour compter le nombre de personne encore en vie que le sherif a en tête et non pas la variable static
 								lstInfo.at(j).sus = min;
 							}
 						}

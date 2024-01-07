@@ -91,6 +91,8 @@ void Amogus::updateFacingDir(Vect& direction)
     }
 }
 
+/// @brief update la destination du amongus
+/// @param dt delta time
 void Amogus::update(float dt)
 {   
     Vect* local_dest = destination;
@@ -107,6 +109,8 @@ void Amogus::update(float dt)
     position += dir;
 }
 
+/// @brief retourne le type de l'amongus (imposteur ou crewmate)
+/// @return le type de l'amongus
 int Amogus::get_type()
 {
     return type;
@@ -126,6 +130,7 @@ int Amogus::get_type()
 
 // }
 
+/// @brief Dessine la destination de l'amongus
 void Amogus::drawDest()
 {
     if (follow_dest && destination != nullptr)
@@ -146,15 +151,19 @@ void Amogus::drawDest()
     }
 }
 
+/// @brief dessine la portée de vision de l'amongus
 void Amogus::drawVisionRange()
 {
     DrawCircleLinesV((Vector2)position, distVision, GRAY);
 }
+
+/// @brief dessine la portée de l"interaction de l'amongus
 void Amogus::drawInteractRange()
 {
     DrawCircleLinesV((Vector2)position, distInterract, LIME);
 }
 
+/// @brief Intialise l'animation des sprites d'Amongus
 void Amogus::initAnim()
 {
     Spritesheet* s_bg =   new Spritesheet(ASSETS_PATH "BIGamogus_bg.png"   , 32*3);
@@ -172,6 +181,7 @@ void Amogus::initAnim()
     deadSprite = LoadTexture(ASSETS_PATH "dead.png");
 }
 
+/// @brief Dessine l'Amongus
 void Amogus::draw()
 {
     int t = GetTime() * 44;

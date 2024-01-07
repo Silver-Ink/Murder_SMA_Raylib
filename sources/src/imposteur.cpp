@@ -23,6 +23,13 @@ void Imposteur::findNextDest()
 {
 	int rand;
 	float randPos1, randPos2;
+
+	if (!alive)
+	{
+		setDestination(nullptr);
+		return;
+	}
+
 	if (cooldown_kill > 0)
 	{
 		cooldown_kill--;
@@ -61,6 +68,7 @@ void Imposteur::findNextDest()
 			printf("------------------------\nTUER\n--------------------------\n");
 			cooldown_kill = 4000;
 			Game::get_AmogusById(id_victime)->die();
+			Game::killCrewmate();
 			action = 0;
 		}
 	}

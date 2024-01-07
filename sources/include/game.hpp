@@ -66,12 +66,15 @@ public:
     static int get_nbAmogusAlive();
     static int get_nbCrewmateAlive();
     static int get_nbImpostorAlive();
+    static void killCrewmate();
+    static void killImposteur();
     static vector<Amogus *> get_lstAmogus();
 
     static Amogus* get_AmogusById(int id);
 
     static int get_nbPhysicalTask();
     static int get_nbTaskPerCrewmate();
+    static bool testEndGame();
 
     static Task* get_TaskById(int id);
     

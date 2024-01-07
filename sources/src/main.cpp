@@ -1,5 +1,6 @@
 #include "to_include.hpp"
 #include <typeinfo>
+#include <iostream>
 
 #define SCREEN_WIDTH (1920)
 #define SCREEN_HEIGHT (1080)
@@ -34,9 +35,13 @@ void init_muder_game(int nbrCrewmate, int nbrImpostor, int nbrSherif, int nbrTas
         if (Game::get_AmogusById(i)->get_type() == 0)
         {
             printf("CrewMate détecté\n");
-            for (int j = 0; j < nbrTask; j++)
+            // for (int j = 0; j < nbrTask; j++)
+            // {
+            //     printf("|%d|", ((Crewmate*) Game::get_AmogusById(i))->getTask().at(j)->get_taskId());
+            // }
+            for (int j = 0; j < nbrCrewmate + nbrImpostor; j++)
             {
-                printf("|%d|", ((Crewmate*) Game::get_AmogusById(i))->getTask().at(j)->get_taskId());
+                printf("|%lf|", ((Crewmate*) Game::get_AmogusById(i))->getSusById(j));
             }
             printf("\n");
         }
@@ -76,17 +81,23 @@ void startGameLoop()
         Game::update(Game::dt);
         Game::draw();
         EndDrawing();
+        if (Game::testEndGame())
+            return;
     }
 }
 
 int main(void)
 {   
-    init_muder_game(10, 1, 0, 10);
+    init_muder_game(8, 2, 1, 10);
     InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, WINDOW_TITLE);
     SetTargetFPS(200);
     Amogus::initAnim();
     Task::initAnim();
     startGameLoop();
+    if (Game::get_nbCrewmateAlive() == 0)
+        std::cout << "Les Imposteurs ont gagnés!" << std::endl;
+    else
+        std::cout << "Les Crewmates ont gagnés!" << std::endl;
     CloseWindow();    
 
     return 0;

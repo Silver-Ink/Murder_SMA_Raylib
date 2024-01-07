@@ -3,7 +3,6 @@
 
 
 Information::Information() :
-	sus(1 / Game::get_nbAmogusAlive()),
-	alive(true),
-	deathPos(-1, -1)
+	sus(1 / (Game::get_nbAmogusAlive()-1)),
+	alive(true)
 {}

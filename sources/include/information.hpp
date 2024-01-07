@@ -7,12 +7,7 @@
 struct Information{
 	/// @brief taux de suspition envers l'amogus concerné [0, 1]
 	float sus;
-	/// @brief false si le amogus a été vu mort
 	bool alive;
-
-	Vect deathPos;
-
-
 	Information();
 };
 

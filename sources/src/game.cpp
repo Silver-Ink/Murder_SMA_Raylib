@@ -63,6 +63,12 @@ void Game::generate_entities(int nb_cm, int nb_impos, int nb_sherif, int nb_task
     printf("FIN\n");
 }
 
+bool Game::testEndGame()
+{
+    //printf("C: %d , I: %d\n", get_nbCrewmateAlive(), get_nbImpostorAlive());
+    return (get_nbCrewmateAlive() == 0 ||get_nbImpostorAlive() == 0);
+}
+
 void Game::update(float dt)
 {
     vector<Amogus*>::iterator amgs;
@@ -140,6 +146,15 @@ int Game::get_nbCrewmateAlive()
 int Game::get_nbImpostorAlive()
 {
 	return nb_impostor;
+}
+
+void Game::killCrewmate()
+{
+    nb_crewmate--;
+}
+void Game::killImposteur()
+{
+    nb_impostor--;
 }
 
 Amogus* Game::get_AmogusById(int id)

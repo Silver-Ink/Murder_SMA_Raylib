@@ -11,9 +11,11 @@ class Crewmate : public Amogus
 	static Color const SherifColor;
 	int occupe;
 	int action;
+	int cooldown_kill;
 	int cooldown_pasBouger;
 	int nbTaskCleared;
 	int ind_pp_task;
+	int id_victime;
 	bool armed;
 	int ind_next_task; /*Indice de la tâche que compte réaliser le crewmate 
 						-> évite d'avoir à parcourir l'ens des tâches à chaque itération du jeu 
@@ -21,8 +23,7 @@ class Crewmate : public Amogus
 
 	vector<Task*> lstTasks;
 	vector<Information> lstInfo;
-	void checkDead(int id);
-	int get_most_sus();
+	void updateInfo();
 
 
 public:
@@ -37,8 +38,9 @@ public:
 	vector<Task*> getTask();
 	int PlusProcheTask();
 	void deplacer(float offset, Vect pos_task);
-	void fuir(int ind_sus);
+	void fuirOrChase();
  	void setTask(const vector<Task*> & listeTask);
+	float getSusById(int nbr);
 	virtual void findNextDest() override;
 	virtual const Color& getRoleColor() override;
 };

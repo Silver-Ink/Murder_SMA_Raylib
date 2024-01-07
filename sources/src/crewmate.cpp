@@ -17,12 +17,19 @@ Crewmate::Crewmate(float x, float y, bool is_sherif) :
 	occupe(0),
 	action(0),
 	cooldown_pasBouger(0),
-	ind_pp_task(-1)
+	ind_pp_task(-1),
+	cooldown_kill(0)
 {
 	// initialisation des info
 	int nbAmogus = Game::get_nbAmogus();
 	lstInfo.resize(nbAmogus);
-	lstInfo[id].sus = 0; // suspition envers soit-meme a zéro
+	for (int i = 0; i < Game::get_nbAmogus(); i++)
+	{
+		if (i == id)
+			lstInfo.at(i).sus = 0; // suspition envers soit-meme a zéro
+		else
+			lstInfo.at(i).sus = 1 / (Game::get_nbAmogus() - 1);	
+	}
 	taskDone = new bool[Game::get_nbPhysicalTask()];
 	for(int i = 0; i < Game::get_nbPhysicalTask(); i++) taskDone[i] = false;
 }
@@ -75,7 +82,6 @@ int Crewmate::PlusProcheTask()
 /// @param offset Distance parcouru en une unité de temps
 void Crewmate::findNextDest()
 {
-	int most_sus_id = get_most_sus();
 	//printf("ACTION : %d\n", action);
 	int rand;
 	float randPos1, randPos2;
@@ -89,11 +95,15 @@ void Crewmate::findNextDest()
 		occupe--;
 		return;
 	}
+	if (cooldown_kill > 0)
+	{
+		cooldown_kill--;
+	}
+	updateInfo();
 	if (action == 1)
 	{
-		//printf("IF ACTION==1\n");
-		fuir(most_sus_id);
-		//printf("IF ACTION==1 APRES FUIR\n");
+		if (!armed || (armed && cooldown_kill <= 0))
+			fuirOrChase();
 		if (destination->in(position, distInterract)) //Lorsqu'on arrive à destination, on repasse à l'état neutre
 		{
 			taskDone[ind_pp_task] = true;
@@ -107,7 +117,8 @@ void Crewmate::findNextDest()
 	}
 	else if (action == 2)
 	{
-		fuir(most_sus_id);
+		if (!armed || (armed && cooldown_kill <= 0))
+			fuirOrChase();
 		if (destination->in(position, distInterract)) //Lorsqu'on arrive à destination, on repasse à l'état neutre
 		{
 			//printf("Destination atteinte!\n");
@@ -116,8 +127,8 @@ void Crewmate::findNextDest()
 	}
 	else if (action == 3)
 	{
-		fuir(most_sus_id);
-		//if(!destination) printf("BOZO HAHAHAHAHAAH\n");
+		if (!armed || (armed && cooldown_kill <= 0))
+			fuirOrChase();
 		cooldown_pasBouger--;
 		if (cooldown_pasBouger <= 0)
 		{
@@ -127,10 +138,23 @@ void Crewmate::findNextDest()
 	}
 	else if (action == 4)
 	{
-		//if(!destination) printf("BOZO HAHAHAHAHAAH\n");
 		if (destination->in(position, distInterract)) //Lorsqu'on arrive à destination, on repasse à l'état neutre
 		{
-			//printf("Destination atteinte!\n");
+			action = 0;
+		}	
+	}
+	else if (action == 5)
+	{
+		if (destination->in(position, distInterract)) //Lorsqu'on arrive à destination, on repasse à l'état neutre
+		{
+			printf("-------------------\nTUER IMPOSTEUR\n----------------------\n");
+			printf("Cet Amogus avait %lf chance d'être un tueur\n", lstInfo.at(id_victime).sus);
+			Game::get_AmogusById(id_victime)->die();
+			if (Game::get_AmogusById(id_victime)->get_type() == 0)
+				Game::killCrewmate();
+			else
+				Game::killImposteur();
+			cooldown_kill = 4000;
 			action = 0;
 		}	
 	}
@@ -198,62 +222,47 @@ void Crewmate::findNextDest()
 	} 
 }
 
-int Crewmate::get_most_sus()
+void Crewmate::fuirOrChase()
 {
-
-	/*Ici, on parcourt les Amogus pour trouver celui le plus proche et réagir si celui-ci est trop suspect
-	-> cas a modifier si on souhaite qq chose de plus complexe*/
-	int ind_sus = -1;
-	float min_dist = 999999999.;
-	//Recherche du Amogus le plus proche dans le champ de vision s'il existe
-	for(int i = 0; i < Game::get_nbAmogus(); i++)
-	{
+	for (int i = 0; i < Game::get_nbAmogus(); i++)
+    {
 		if(i != id)
 		{
 			Vect pos_amogus = Game::get_AmogusById(i)->get_position();
-			if((pos_amogus.in(position, distVision)) && (pos_amogus.dist(position) < min_dist)) //Amogus différent de soi-même visible du champ de vision
+			if(pos_amogus.in(position, distVision) && Game::get_AmogusById(i)->isAlive() && lstInfo.at(i).sus > DEFAULT_avoid)
 			{
-				min_dist = pos_amogus.dist(position);
-				ind_sus = i;
+				id_victime = i;
+				if (armed)
+				{
+					setDestination(&Game::get_AmogusById(id_victime)->get_position());
+					action = 5;
+					return;
+				}
+				else
+				{
+					Vect pos_amogus = Game::get_AmogusById(i)->get_position();
+					float randX, randY;
+					if((pos_amogus.get_x() > position.get_x())) {
+						randX = Game::rand_real2((DRAW_RADIUS/2), position.get_x());
+					} else {
+						randX = Game::rand_real2(position.get_x(), Game::SCREEN_WIDTH-(DRAW_RADIUS/2));
+					}
+					if((pos_amogus.get_y() > position.get_y())) {
+						randY = Game::rand_real2((DRAW_RADIUS/2), position.get_y());
+					} else {
+						randY = Game::rand_real2(position.get_y(), Game::SCREEN_HEIGHT-(DRAW_RADIUS/2));
+					}
+					dest_prioritaire.set_x(randX);
+					dest_prioritaire.set_y(randY);
+					setDestination(&dest_prioritaire);
+					follow_dest = true;
+					action = 4;
+					printf(" FUIR!\n");
+					return;
+				}
 			}
 		}
 	}
-	return ind_sus;
-}
-
-void Crewmate::fuir(int ind_sus)
-{
-	//On vérifie si un quelconque Amogus est visible ou non
-	if((ind_sus != -1) && lstInfo[ind_sus].sus >= DEFAULT_avoid) 
-	{
-		Vect pos_amogus = Game::get_AmogusById(ind_sus)->get_position();
-		float randX, randY;
-		if((pos_amogus.get_x() > position.get_x())) {
-			randX = Game::rand_real2((DRAW_RADIUS/2), position.get_x());
-		} else {
-			randX = Game::rand_real2(position.get_x(), Game::SCREEN_WIDTH-(DRAW_RADIUS/2));
-		}
-		if((pos_amogus.get_y() > position.get_y())) {
-			randY = Game::rand_real2((DRAW_RADIUS/2), position.get_y());
-		} else {
-			randY = Game::rand_real2(position.get_y(), Game::SCREEN_HEIGHT-(DRAW_RADIUS/2));
-		}
-		/*
-		Vect dest_fuite;
-		printf("CRASH ??????\n");
-		dest_fuite.set_x(randX);
-		dest_fuite.set_y(randY);
-		float distance = dest_fuite.dist(position);
-		dest_fuite -= position;
-		moveToward(dest_fuite.angle(), distance); */
-		dest_prioritaire.set_x(randX);
-		dest_prioritaire.set_y(randY);
-		setDestination(&dest_prioritaire);
-		follow_dest = true;
-		action = 4;
-		printf(" FUIR!\n");
-	}
-
 }
 
 
@@ -267,16 +276,50 @@ void Crewmate::setTask(const vector<Task*>& listeTask)
 	lstTasks = listeTask;
 }
 
+float Crewmate::getSusById(int nbr)
+{
+	return lstInfo.at(nbr).sus;
+}
+
 const Color& Crewmate::getRoleColor()
 {
 	return armed ? SherifColor : CrewmateColor ;
 }
 
-void Crewmate::checkDead(int id)
+void Crewmate::updateInfo()
 {
-	if (Game::get_AmogusById(id)->isAlive() == false && lstInfo[id].alive)
-	{
-		lstInfo[id].alive = false;
-		lstInfo[id].deathPos = Game::get_AmogusById(id)->get_position();
-	}
+    for (int i = 0; i < Game::get_nbAmogus(); i++)
+    {
+		if(i != id)
+		{
+			Vect pos_amogus = Game::get_AmogusById(i)->get_position();
+			if(pos_amogus.in(position, distVision) && !Game::get_AmogusById(i)->isAlive() && lstInfo.at(i).alive)
+			{
+				lstInfo.at(i).sus = 0.0;
+				lstInfo.at(i).alive = false;
+				for (int j = 0; j < Game::get_nbAmogus(); j++)
+    			{
+					if(j != id)
+					{
+						Vect pos_amogus2 = Game::get_AmogusById(j)->get_position();
+						if(pos_amogus2.in(position, distVision) && Game::get_AmogusById(j)->isAlive())
+						{
+							printf("susAvant: %lf\n", lstInfo.at(j).sus);
+							lstInfo.at(j).sus += 10.0;
+							printf("susApres: %lf\n", lstInfo.at(j).sus);
+						}
+						else if (!pos_amogus2.in(position, distVision) && Game::get_AmogusById(j)->isAlive())
+						{
+							float min = 1 / (Game::get_nbCrewmateAlive() + Game::get_nbImpostorAlive() - 1);
+							if (lstInfo.at(j).sus < min)
+							{
+								//TODO: parcourir plutôt les infos pour compter le nombre de personne encore en vie que le sherif a en tête et non pas la variable static
+								lstInfo.at(j).sus = min;
+							}
+						}
+					}
+				}
+			}
+		}
+    }
 }

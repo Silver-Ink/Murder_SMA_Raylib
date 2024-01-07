@@ -84,10 +84,12 @@ int main(void)
     Task::initAnim();
     Game::bgImage = LoadTexture(ASSETS_PATH "bg.png");
     startGameLoop();
+    std::cout << "-----------------------------------" << std::endl;
     if (Game::get_nbCrewmateAlive() == 0)
         std::cout << "Les Imposteurs ont gagnés!" << std::endl;
     else
         std::cout << "Les Crewmates ont gagnés!" << std::endl;
+    std::cout << "-----------------------------------" << std::endl;
     CloseWindow();    
 
     return 0;

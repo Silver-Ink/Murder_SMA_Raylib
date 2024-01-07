@@ -251,6 +251,7 @@ int Game::nb_completed_tasks = 0;
 
 // =============== DEBUG ====================
 
+/// @brief gère les controles de débug accessibles avec la touche CTRL
 void Game::debug_update()
 {
     if (IsKeyPressedRepeat(KEY_EQUAL) || IsKeyPressedRepeat(KEY_KP_ADD) ||
@@ -302,6 +303,8 @@ void Game::debug_update()
 int Game::debug_txt_size = 30;
 Vect Game::debug_txt_pos_def = Vect(10, 10);
 Vect Game::debug_txt_pos = Vect(10, 10);
+/// @brief Dessine du texte de débug sur l'écran a la suite de ce qui a deja é&té écrit
+/// @param txt texte a écrire
 void Game::drawDebugText(string txt)
 {
     if (show_debug_txt)
@@ -312,6 +315,10 @@ void Game::drawDebugText(string txt)
     }
 }
 
+/// @brief Dessine une fleche entre les deux points
+/// @param p1 départ
+/// @param p2 arrivée
+/// @param tint couleur
 void Game::drawArrow(Vect& p1, Vect& p2, Color& tint)
 {
     DrawLineEx((Vector2)p1,

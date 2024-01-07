@@ -90,7 +90,7 @@ void startGameLoop()
 
 int main(void)
 {   
-    init_muder_game(12, 2, 3, 10);
+    init_muder_game(5, 5, 5, 3);
     InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, WINDOW_TITLE);
     SetTargetFPS(200);
     Amogus::initAnim();

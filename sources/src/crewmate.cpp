@@ -147,13 +147,19 @@ void Crewmate::findNextDest()
 	{
 		if (destination->in(position, distInterract)) //Lorsqu'on arrive à destination, on repasse à l'état neutre
 		{
-			printf("-------------------\nTUER IMPOSTEUR\n----------------------\n");
-			printf("Cet Amogus avait %lf chance d'être un tueur\n", lstInfo.at(id_victime).sus);
 			Game::get_AmogusById(id_victime)->die();
 			if (Game::get_AmogusById(id_victime)->get_type() == 0)
+			{
+				printf("Oups, tu étais trop sus désolé....\n");
+				printf("Cet Amogus avait %lf chance d'être un tueur\n", lstInfo.at(id_victime).sus);
 				Game::killCrewmate();
+			}
 			else
+			{
+				printf("Meurt, vile méchant!\n");
+				printf("Cet Amogus avait %lf chance d'être un tueur\n", lstInfo.at(id_victime).sus);
 				Game::killImposteur();
+			}
 			cooldown_kill = 4000;
 			action = 0;
 		}	
@@ -305,15 +311,12 @@ void Crewmate::updateInfo()
 						if(pos_amogus2.in(position, distVision) && Game::get_AmogusById(j)->isAlive())
 						{
 							lstInfo.at(j).sus += 0.1;
-							if (armed && Game::get_AmogusById(j)->get_type() == 1)
-								printf("Je vois un imposteur avec %lf %% d'être imposteur\n",lstInfo.at(j).sus );
 						}
 						else if (!pos_amogus2.in(position, distVision) && Game::get_AmogusById(j)->isAlive())
 						{
 							float min = (float) Game::get_nbImpostorAlive() / (float) (Game::get_nbCrewmateAlive() + Game::get_nbImpostorAlive() - 1);
 							if (lstInfo.at(j).sus < min)
 							{
-								printf("Mise à jour des autres à %lf %% d'être imposteur\n", min);
 								//TODO: parcourir plutôt les infos pour compter le nombre de personne encore en vie que le sherif a en tête et non pas la variable static
 								lstInfo.at(j).sus = min;
 							}

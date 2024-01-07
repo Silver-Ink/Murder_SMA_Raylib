@@ -65,13 +65,18 @@ void Imposteur::findNextDest()
 	{
 		if (destination->in(position, 10))
 		{
-			printf("------------------------\nTUER\n--------------------------\n");
 			cooldown_kill = 4000;
 			Game::get_AmogusById(id_victime)->die();
 			if (Game::get_AmogusById(id_victime)->get_type() == 0)
+			{
+				printf("LA MORT....n'épargne aucun de nous... !\n");
 				Game::killCrewmate();
+			}
 			else
+			{
+				printf("Oups, j'ai tué un amis imposteur !\n");
 				Game::killImposteur();
+			}
 			action = 0;
 		}
 	}

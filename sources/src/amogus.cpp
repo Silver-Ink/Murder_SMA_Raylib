@@ -32,7 +32,7 @@ Amogus::Amogus(float x, float y, int types) :
     highlightColor.r = Game::rand_int1(50, 225);
     highlightColor.g = Game::rand_int1(50, 225);
     highlightColor.b = Game::rand_int1(50, 225);
-    highlightColor.a = 255;
+    highlightColor.a = 80;
 }
 
 Amogus::Amogus() : Amogus(Game::rand_int1(0, 500), Game::rand_int1(0, 500), 0)
@@ -81,11 +81,14 @@ void Amogus::moveToward(float angle_dir, float distance)
 /// @param direction vecteur de direction du déplacement
 void Amogus::updateFacingDir(Vect& direction)
 {
-    int d = direction.angle() / PI * 4. + 4.; // [0, 7]
-    if (d == 0) {d = 8;}                      // [1, 8]
-    d --;                                     // [0, 7]
-    d /= 2;                                   // [0, 3]
-    dir = d;
+    if (direction.length_sq() > 1)
+    {
+        int d = direction.angle() / PI * 4. + 4.; // [0, 7]
+        if (d == 0) {d = 8;}                      // [1, 8]
+        d --;                                     // [0, 7]
+        d /= 2;                                   // [0, 3]
+        dir = d;
+    }
 }
 
 void Amogus::update(float dt)
@@ -171,12 +174,17 @@ void Amogus::initAnim()
 
 void Amogus::draw()
 {
-    int t = GetTime() * 30;
+    int t = GetTime() * 44;
     Vector2 p;
     DrawCircle(position.get_x(), position.get_y(), DRAW_OUTLINE_RADIUS + DRAW_RADIUS, highlightColor);
     p.x = position.get_x() - 48;
     p.y = position.get_y() - 48;
-    if (dir < 0 ||dir > 3) {return;} 
+    if (dir < 0 ||dir > 3) {
+        
+        DrawCircleV(p, DRAW_RADIUS, PURPLE);
+        Game::drawDebugText(to_string(dir) + "incorrect direction");
+        return;
+    } 
     if (p.x > -50 && p.x < 1970 && p.y > -50 && p.y < 1130)
     {
         if (alive)
